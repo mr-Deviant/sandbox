@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Site title</title>
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- header - used for preliminary data -->
+	<header>
+		Page header
+		<!-- other avialable roles (not needed for semantic elements like <form>, <article>): application, article, banner, complementary, contentinfo, document, form, heading, main, navigation, search -->
+		<form role="search">
+			<input type="text" name="search" placeholder="Search">
+		</form>
+	</header>
+	<!-- aside - for the content which must be placed aside from main content -->
+	<aside>
+		<!-- nav - used for navigation links  -->
+		<nav>
+			<ul>
+				<li><a href="#home">Home</a></li>
+			</ul>
+		</nav>
+	</aside>
+	<!-- main content block -->
+	<div role="main">
+		<!-- section - used for seperating page into several thematic regions -->
+		<!-- article - independent item of content -->
+		<article>
+			<h1>Article title</h1>
+			<!-- mark - notes the important part of the document -->
+			<p>Article <mark>content</mark></p>
+		</article>
+		<article>
+			<header>
+				<h1>Post title</h1>
+				<!-- time - used for specifying time or full date,
+				     pubdate attribute means that this is publication date -->
+				<time datetime="2014-10-01T14:00-02:00" pubdate>2pm, October 1st, 2014</time>
+			</header>
+			<p>Post content</p>
+			<footer>
+				Tags: <a href="#">Interesting</a>
+			</footer>
+		</article>
+	</div>
+	<!-- footer - creates footer for structured content or structured root elements -->
+	<footer>
+		<!-- small - used for refusals, warnings, legal restrictions or copyrights -->
+		<small role="contentinfo">&copy; All right reserved</small>
+	</footer>
+
+
+nav, header, footer, aside, article
+
+</body>
+</html>
