@@ -6,11 +6,16 @@
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+	<!-- Or use modernizr -->
 </head>
 <body>
 	<!-- header - used for preliminary data -->
 	<header>
-		Page header
+		<!-- hgroup - group H elements -->
+		<hgroup>
+			<h1>Page header</h1>
+			<h2>Page slogan</h2>
+		</hgroup>
 		<!-- other avialable roles (not needed for semantic elements like <form>, <article>): application, article, banner, complementary, contentinfo, document, form, heading, main, navigation, search -->
 		<form role="search">
 			<input type="search" placeholder="Search" autofocus>
@@ -32,6 +37,10 @@
 			<h1>Article title</h1>
 			<!-- mark - notes the important part of the document -->
 			<p>Article <mark>content</mark></p>
+			<figure>
+			    <img src="image.jpg" alt="">
+			    <figcaption>Image caption</figcaption>
+			</figure>
 		</article>
 		<article>
 			<header>
@@ -47,30 +56,40 @@
 		</article>
 		<!-- section - used for seperating page into several thematic regions -->
 		<section>
-		<form novalidate>
-			<label for="myemail">Email: </label><input type="email" id="myemail" multiple required><br>
-			Url: <input type="url"><br>
-			Date: <input type="date"><br>
-			Time: <input type="time"><br>
-			Datetime?: <input type="datetime"><br>
-			Month: <input type="month"><br>
-			Week: <input type="week"><br>
-			Number: <input type="number" min="0" max="100" step="2"><br>
-			<style>
-				input[type="range"]::before {content: attr(min);}
-				input[type="range"]::after {content: attr(max);}
-			</style>
-			Range: <input type="range" role="slider" min="1" aria-valuemin="1" max="10" aria-valuemax="10" value="2" aria-valuenow="0" onchange="this.setAttribute('aria-valuenow', this.value)"><br>
-			Tel: <input type="tel" name="tel" id="tel"><br>
-			Color: <input type="color"><br>
-			Pattern: <input type="text" pattern="[0-9][A-Z]{3}" autocomplete="on"><br>
-			List: <input type="text" list="mylist"><br>
-			<datalist id="mylist">
-				<option label="Mr" value="Mr">
-				<option label="Ms" value="Ms">
-			</datalist>
-			Multiple file upload: <input type="file" multiple>
-		</form>
+			<form oninput="myoutput.value=myrange.value"> <!-- attr:  novalidate -->
+				<label for="myemail">Email: </label><input type="email" id="myemail" multiple required><br>
+				Url: <input type="url"><br>
+				Date: <input type="date"><br>
+				Time: <input type="time"><br>
+				Datetime?: <input type="datetime"><br>
+				Month: <input type="month"><br>
+				Week: <input type="week"><br>
+				Number: <input type="number" min="0" max="100" step="2"><br>
+				Range: <input type="range" name="myrange" role="slider" min="1" aria-valuemin="1" max="10" aria-valuemax="10" value="2" aria-valuenow="0" onchange="this.setAttribute('aria-valuenow', this.value)"><br>
+				Output: <output name="myoutput">1</output><br>
+				Tel: <input type="tel" name="tel" id="tel"><br>
+				Color: <input type="color"><br>
+				Pattern: <input type="text" pattern="[0-9][A-Z]{3}" autocomplete="on"><br>
+				List: <input type="text" list="mylist"><br>
+				<datalist id="mylist">
+					<option label="Mr" value="Mr">
+					<option label="Ms" value="Ms">
+				</datalist>
+				Multiple file upload: <input type="file" multiple>
+			</form>
+		</section>
+		<section>
+			<audio autoplay controls loop muted preload>
+			    <source src="file.ogg" />
+			    <source src="file.mp3" />
+			    Your browser does not support the audio tag
+			</audio>
+			<video width="300" height="200" poster="poster.jpg" autoplay controls loop muted preload="metadata">
+			    <source src="video.ogv" type="video/ogg; codecs='theora, vorbis'">
+			    <source src="video.mp4" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
+			    <!-- fallback -->
+			    <embed src="video.flv" type="application/x-shockwave-flash" width="300" height="200" allowscriptaccess="always" allowfullscreen="true">
+			</video>
 		</section>
 	</div>
 	<!-- footer - creates footer for structured content or structured root elements -->
