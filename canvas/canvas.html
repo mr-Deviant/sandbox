@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas example</title>
+</head>
+<body>
+	<canvas id="example" width="1000" height="1000"></canvas>
+	<img src="img/yahoo.jpg" id="img" style="display: none;">
+	<script>
+		var canvas = document.getElementById('example');
+		if (canvas.getContext) { // Canvas supported
+			var ctx = canvas.getContext('2d');
+			
+			// Filled rectangle
+			ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+        	ctx.fillRect(0 * 120 + 10, 0 * 120 + 10, 100, 100);
+
+        	// Stroked rectangle
+        	ctx.lineWidth = 8;
+        	ctx.lineJoin = 'round';
+        	ctx.strokeStyle = '#F00';
+        	ctx.strokeRect(1 * 120 + 10, 0 * 120 + 10, 100, 100);
+
+        	// Cleared rectangle
+        	ctx.fillRect(2 * 120,       0 * 120,      120, 120);
+        	ctx.clearRect(2 * 120 + 10, 0 * 120 + 10, 100, 100);
+
+        	// Filled triangle
+        	ctx.beginPath();
+        	ctx.moveTo(3 * 120 + 60 , 0 * 120 + 10);
+        	ctx.lineTo(3 * 120 + 110, 0 * 120 + 110);
+        	ctx.lineTo(3 * 120 + 10 , 0 * 120 + 110);
+        	ctx.fill();
+
+        	// Stroked triangle
+        	ctx.lineJoin = 'bevel';
+        	ctx.beginPath();
+        	ctx.moveTo(4 * 120 + 10 , 0 * 120 + 10);
+        	ctx.lineTo(4 * 120 + 110, 0 * 120 + 110);
+        	ctx.lineTo(4 * 120 + 10 , 0 * 120 + 110);
+        	ctx.closePath()
+        	ctx.stroke();
+
+        	// Filled circle
+        	ctx.beginPath();
+        	ctx.arc(0 * 120 + 60, 1 * 120 + 60, 50, 0, Math.PI*2, true);
+			ctx.fill();
+
+			// Stroked circle
+			ctx.lineJoin = 'miter';
+			ctx.beginPath();
+        	ctx.arc(   1 * 120 + 60 , 1 * 120 + 60, 50, 0, Math.PI*2, true);
+        	ctx.moveTo(1 * 120 + 100, 1 * 120 + 60);
+        	ctx.arc(   1 * 120 + 60 , 1 * 120 + 60, 40, 0, Math.PI, false);
+			ctx.stroke();
+
+			// Line
+        	ctx.lineCap = 'square';
+			ctx.beginPath();
+        	ctx.moveTo(2 * 120 + 10 , 1 * 120 + 10);
+        	ctx.lineTo(2 * 120 + 110, 1 * 120 + 110);
+        	ctx.moveTo(2 * 120 + 110, 1 * 120 + 10);
+        	ctx.lineTo(2 * 120 + 10 , 1 * 120 + 110);
+        	ctx.stroke();
+
+        	// Quadratic curve
+        	ctx.lineCap = 'butt';
+        	ctx.beginPath();
+		    ctx.moveTo(          3 * 120 + 10 , 1 * 120 + 10);
+		    ctx.quadraticCurveTo(3 * 120 + 110, 1 * 120 + 10 , 3 * 120 + 110, 1 * 120 + 110);
+		    ctx.quadraticCurveTo(3 * 120 - 10 , 1 * 120 + 130, 3 * 120 + 10 , 1 * 120 + 10);
+		    ctx.stroke();
+
+        	// Bezier curve
+        	ctx.lineCap = 'round';
+			ctx.beginPath();
+		    ctx.moveTo(       4 * 120 + 10, 1 * 120 + 60);
+		    ctx.bezierCurveTo(4 * 120 + 10, 1 * 120 + 10, 4 * 120 + 50 , 1 * 120 + 50 , 4 * 120 + 60 , 1 * 120 + 60);
+		    ctx.bezierCurveTo(4 * 120 + 70, 1 * 120 + 70, 4 * 120 + 110, 1 * 120 + 110, 4 * 120 + 110, 1 * 120 + 60);
+		    ctx.stroke();
+
+		    // External image 
+			var googleImg = new Image();
+			img.onload = function() {
+			    ctx.drawImage(googleImg, 0 * 120 + 10, 2 * 120 + 35, 100, 50);
+			};
+			googleImg.src = 'img/google.png';
+
+        	// Image from page
+			ctx.drawImage(document.getElementById('img'), 1 * 120 + 10, 2 * 120 + 35, 100, 50);
+
+			// Linear gradient
+			var linearGradient = ctx.createLinearGradient(2 * 120, 2 * 120, 2 * 120, 2 * 120 + 120);
+			linearGradient.addColorStop(0, '#FF0000');
+			linearGradient.addColorStop(0.5, '#FFFF00');
+			linearGradient.addColorStop(1, '#00FFFF');
+			ctx.fillStyle = linearGradient; // Or ctx.strokeStyle could be used
+			ctx.fillRect(2 * 120 + 10, 2 * 120 + 10, 100, 100);
+
+			// Radial gradient
+			var radialGradient = ctx.createRadialGradient(3 * 120 + 60, 2 * 120 + 60, 10, 3 * 120 + 60, 2 * 120 + 60, 50);
+			radialGradient.addColorStop(0, '#FF0000');
+			radialGradient.addColorStop(1, '#0000FF');
+			ctx.fillStyle = radialGradient;
+			ctx.fillRect(3 * 120 + 10, 2 * 120 + 10, 100, 100);
+
+			// Pattern
+			var appleImg = new Image();
+			appleImg.onload = function() {
+				var pattern = ctx.createPattern(appleImg, 'repeat');
+				ctx.fillStyle = pattern;
+			    ctx.fillRect(4 * 120 + 10, 2 * 120 + 10, 100, 100);
+			};
+			appleImg.src = 'img/apple.jpg';
+			
+			// Text
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+			ctx.shadowBlur = 2;
+			ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+
+			ctx.font = '18px Times New Roman';
+			ctx.fillStyle = 'black';
+			ctx.fillText('Lorem ipsum', 0 * 120 + 10, 3 * 120 + 35);
+
+			// https://developer.mozilla.org/ru/docs/Web/Guide/HTML/Canvas_tutorial
+			// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Transformations
+		}
+	</script>
+</body>
+</html>
