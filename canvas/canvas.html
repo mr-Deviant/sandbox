@@ -182,12 +182,14 @@
 			// Too complex:)
 
 			// Overlapping
+			ctx.save();
 			ctx.fillStyle = 'rgb(0, 0, 200)';
 			ctx.globalCompositeOperation = 'lighter';
 			ctx.fillRect(4 * 120 + 10, 3 * 120 + 10, 75, 75);
 			ctx.fillRect(4 * 120 + 35, 3 * 120 + 35, 75, 75);
+			ctx.restore();
 			// Full list: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing#globalCompositeOperation
-			// But many examples doesn't work in my case
+			// But many examples doesn't work in my case because of images callback functions
 
 
 			// https://developer.mozilla.org/ru/docs/Web/Guide/HTML/Canvas_tutorial
