@@ -3,10 +3,23 @@
 <head>
 	<meta charset="utf-8">
 	<title>Site title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<!-- Or use modernizr -->
+	<style>
+	@font-face {
+		font-family: 'FontRegular';
+		src: url('font.eot');
+		src: url('font.eot?#iefix') format('embedded-opentype'),
+			 url('font.woff') format('woff'),
+			 url('font.ttf') format('truetype'),
+			 url('font.svg#FontRegular') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+	</style>
 </head>
 <body>
 	<!-- header - used for preliminary data -->
@@ -24,7 +37,7 @@
 	<!-- aside - for the content which must be placed aside from main content -->
 	<aside>
 		<!-- nav - used for navigation links  -->
-		<nav>
+		<nav role="navigation">
 			<ul>
 				<li><a href="#home">Home</a></li>
 			</ul>
@@ -56,12 +69,12 @@
 		</article>
 		<!-- section - used for seperating page into several thematic regions -->
 		<section>
-			<form oninput="myoutput.value=myrange.value"> <!-- attr:  novalidate -->
-				<label for="myemail">Email: </label><input type="email" id="myemail" multiple required><br>
-				Url: <input type="url"><br>
+			<form role="form" oninput="myoutput.value=myrange.value"> <!-- attr:  novalidate -->
+				<label for="myemail">Email: </label><input type="email" id="myemail" multiple required aria-required="true"><br>
+				Url: <input type="url" autocomplete="off"><br>
 				Date: <input type="date"><br>
 				Time: <input type="time"><br>
-				Datetime?: <input type="datetime"><br>
+				Datetime (or datetime local (without GMT)): <input type="datetime"><br>
 				Month: <input type="month"><br>
 				Week: <input type="week"><br>
 				Number: <input type="number" min="0" max="100" step="2"><br>
@@ -79,7 +92,7 @@
 			</form>
 		</section>
 		<section>
-			<audio autoplay controls loop muted preload>
+			<audio autoplay controls loop muted preload="auto">
 			    <source src="file.ogg" />
 			    <source src="file.mp3" />
 			    Your browser does not support the audio tag

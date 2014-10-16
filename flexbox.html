@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title></title>
+</head>
+<body>
+<h1>Flex контейнер</h1>
+<!-- http://css-tricks.com/snippets/css/a-guide-to-flexbox/ -->
+
+<style>
+	.flex-section {
+		clear: left;
+	}
+	.flex-example {
+		float: left;
+	}
+	.flex-direction-container {
+		background-color: #89479b;
+		margin: 5px;
+	}
+	.flex-direction-container-horizontal {
+		width: 340px;
+	}
+	.flex-direction-container-vertical {
+		height: 240px;
+		width: 85px;
+	}
+	.flexbox-direction-block {
+		background-color: #e77f24;
+		height: 50px;
+		line-height: 50px;
+		margin: 5px;
+		text-align: center;
+		width: 75px;
+	}
+
+</style>
+
+<h2 class="flex-section">flex-direction</h2>
+
+<div class="flex-example">
+	<strong>flex-direction: row;</strong>
+	<div style="display: flex; flex-direction: row;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+<div class="flex-example">
+	<strong>flex-direction: row-reverse;</strong>
+	<div style="display: flex; flex-direction: row-reverse;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+<div class="flex-example">
+	<strong>flex-direction: column;</strong>
+	<div style="display: flex; flex-direction: column;" class="flex-direction-container flex-direction-container-vertical">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+<div class="flex-example">
+	<strong>flex-direction: column-reverse;</strong>
+	<div style="display: flex; flex-direction: column-reverse;" class="flex-direction-container flex-direction-container-vertical">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+
+<h2 class="flex-section">flex-wrap</h2>
+
+<div class="flex-example">
+	<strong>flex-wrap: wrap;</strong>
+	<div style="display: flex; flex-wrap: wrap;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+		<div class="flexbox-direction-block">4</div>
+		<div class="flexbox-direction-block">5</div>
+		<div class="flexbox-direction-block">6</div>
+	</div>
+</div>
+
+<div class="flex-example">
+	<strong>flex-wrap: wrap-reverse;</strong>
+	<div style="display: flex; flex-wrap: wrap-reverse;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+		<div class="flexbox-direction-block">4</div>
+		<div class="flexbox-direction-block">5</div>
+		<div class="flexbox-direction-block">6</div>
+	</div>
+</div>
+
+<div class="flex-example">
+	<strong>flex-wrap: nowrap;</strong>
+	<div style="display: flex; flex-wrap: nowrap;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+		<div class="flexbox-direction-block">4</div>
+		<div class="flexbox-direction-block">5</div>
+		<div class="flexbox-direction-block">6</div>
+	</div>
+</div>
+
+<h2 class="flex-section">justify-content</h2>
+
+<div class="flex-example">
+	<strong>justify-content: flex-start;</strong>
+	<div style="display: flex; justify-content: flex-start;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+
+<div class="flex-example">
+	<strong>justify-content: flex-end;</strong>
+	<div style="display: flex; justify-content: flex-end;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+
+<div class="flex-example">
+	<strong>justify-content: center;</strong>
+	<div style="display: flex; justify-content: center;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+
+<div class="flex-example">
+	<strong>justify-content: space-between;</strong>
+	<div style="display: flex; justify-content: space-between;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+
+<div class="flex-example">
+	<strong>justify-content: space-around;</strong>
+	<div style="display: flex; justify-content: space-around;" class="flex-direction-container flex-direction-container-horizontal">
+		<div class="flexbox-direction-block">1</div>
+		<div class="flexbox-direction-block">2</div>
+		<div class="flexbox-direction-block">3</div>
+	</div>
+</div>
+
+</body>
+</html>
