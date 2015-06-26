@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Cache manifest example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="style.css" rel="stylesheet">
+	<script src="lib/jquery.js"></script>
+	<script src="lib/bootstrap/js/bootstrap.js"></script>
+	<script src="javascript.js"></script>
+</head>
+<body>
+<script>
+$(document).ready(function () {
+	// Check if page is online
+	var isOnline = navigator.onLine;
+	$('#online').text(isOnline);
+});
+
+// Online/offline actions
+window.addEventListener('online', function () {
+	$('#events').append('<p>Page goes <b>online</b>, now navigator.onLine says: ' + navigator.onLine + '</p>');
+});
+
+window.addEventListener('offline', function () {
+	$('#events').append('<p>Page goes <b>offline</b>, now navigator.onLine says: ' + navigator.onLine + '</p>');
+});
+
+$.getJSON('ajax.json', function(data) {
+	$('#ajax > h1').text(data.result);
+});
+</script>
+<style>
+#css, #js {
+	display: none;
+}
+</style>
+<div class="container-fluid" style="margin: 15px 0;">
+	<div class="row">
+		<div class="col-md-12">
+			<p>Page is online: <kbd id="online"></kbd></p>
+			
+			<p>Page events:</p>
+			<div id="events" class="highlight" style="background-color: #f7f7f9; border: 1px solid #e1e1e8; border-radius: 4px; min-height: 50px; max-height: 150px; overflow: auto; margin-bottom: 15px;"> </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-center" id="css">
+			<h1>CSS loaded</h1>
+		</div>
+		<div class="col-md-3 text-center" id="js">
+			<h1>JavaScript loaded</h1>
+		</div>
+		<div class="col-md-3 text-center" id="ajax">
+			<h1></h1>
+		</div>
+		<div class="col-md-3 text-center">
+			<img src="image.jpg" style="width: 50%; height: auto; margin: 0 auto;" alt="" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<p>Results:</p>
+			<p><span class="glyphicon glyphicon-thumbs-up text-success"></span> Work fine when user select File -> Work Offline (Firefox already cache all files, Safari only mentioned in cache manifest)</p>
+			<p><span class="glyphicon glyphicon-thumbs-down text-danger"></span> Don't work whenever a browser is no longer capable of connecting to the network</p>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+CACHE MANIFEST
+# Cache files
+index.html
+style.css
+javascript.js
+image.jpg
+/ajax.json
