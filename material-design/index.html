@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="StarterApp">
+<head>
+	<meta charset="utf-8">
+	<title>Material design</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
+    <style>
+		/* Rules for sizing the icon */
+		.material-icons.md-18 { font-size: 18px; }
+		.material-icons.md-24 { font-size: 24px; }
+		.material-icons.md-36 { font-size: 36px; }
+		.material-icons.md-48 { font-size: 48px; }
+
+		/* Rules for using icons as black on a light background */
+		.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+		.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+		/* Rules for using icons as white on a dark background */
+		.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+		.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+		.done-true {
+			text-decoration: line-through;
+		}
+    </style>
+    <script>
+    	var app = angular.module('StarterApp', ['ngMaterial']);
+
+		app.controller('AppCtrl', ['$scope', '$mdSidenav', '$mdDialog', '$mdToast', function($scope, $mdSidenav, $mdDialog, $mdToast) {
+			// List with added tasks
+			$scope.tasks = [
+				{done: false, priority: 2, title: 'Lorem ipsum', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras iaculis semper enim vitae fermentum. Curabitur quam felis, tincidunt nec lorem at, eleifend dapibus leo.'}
+			];
+
+			$scope.priorities = ['Low', 'Medium', 'High'];
+
+			$scope.openNewTask = function () {
+				// Structure of new task
+				$scope.newTask = {done: false, priority: 1, title: '', description: ''};
+
+				$scope.taskForm.$setPristine();
+				$scope.taskForm.$setUntouched();
+
+				$mdSidenav('right').toggle();
+			};
+
+			$scope.closeNewTask = function () {
+				$mdSidenav('right').toggle();
+			};
+
+			$scope.saveNewTask = function (form) {
+				if (form.$valid) {
+					$scope.tasks.push($scope.newTask);
+
+					$scope.showToast('Task "' + $scope.delTask.title + '" is added');
+
+					$scope.closeNewTask();
+				}
+			};
+
+			$scope.deleteConfirm = function (event, index) {
+				// Prevent selecting checkbox on delete icon
+				event.stopPropagation();
+
+				var confirm = $mdDialog.confirm({
+					clickOutsideToClose: true,
+					scope: $scope,
+					preserveScope: true,
+					template:
+			           '<md-dialog aria-label="List dialog">' +
+			           '  <md-dialog-content>'+
+			           '    <p>Are you sure want to delete task "{{delTask.title}}"?</p>' +
+			           '  </md-dialog-content>' +
+			           '  <div class="md-actions">' +
+			           '    <md-button ng-click="confirmDialog()" class="md-primary">' +
+			           '      Yes' +
+			           '    </md-button>' +
+			           '    <md-button ng-click="rejectDialog()" class="md-primary">' +
+			           '      No' +
+			           '    </md-button>' +
+			           '  </div>' +
+			           '</md-dialog>',
+			           controller: ['$scope', '$mdDialog', function ($scope, $mdDialog) {
+			           		// Current task
+			           		$scope.delTask = $scope.tasks[index];
+
+			           		$scope.confirmDialog = function () {
+			           			$scope.tasks.splice(index, 1);
+
+			           			$scope.showToast('Task "' + $scope.delTask.title + '" is deleted');
+
+			           			$scope.rejectDialog();
+			           		};
+
+			           		$scope.rejectDialog = function () {
+			           			$mdDialog.hide();
+			           		};
+			           }]
+				});
+
+				$mdDialog
+					.show(confirm)
+					.finally(function() {
+						confirm = undefined;
+					});
+			};
+
+			$scope.showToast = function (text) {
+				$mdToast.show($mdToast.simple({position: 'top right'}).content(text));
+			};
+		}]);
+    </script>
+</head>
+	<body ng-controller="AppCtrl">
+		<md-content>
+			<md-button class="md-fab material-icons" style="font-size: 54px;" aria-label="FAB" class="md-raised" ng-click="openNewTask()">add</md-button>
+
+			<md-list>
+				<md-list-item class="md-2-line" ng-repeat="item in filteredTasks = (tasks | orderBy: ['done','title'])">
+					<md-checkbox class="md-primary" ng-model="item.done" ng-true-value="true" ng-false-value="false"></md-checkbox>
+					<div style="color: #aaa; padding: 19px 10px 16px 10px;">[{{priorities[item.priority]}}]</div>
+					<div class="md-list-item-text done-{{item.done}}">
+						{{item.title}}
+						<p>{{item.description}}</p>
+					</div>
+					<md-button class="material-icons md-icon-button md-24" style="color: #444;" ng-click="deleteConfirm($event, $index)">delete</md-button>
+				</md-list-item>
+				<div style="padding: 0 16px; height: 48px; line-height: 48px;" ng-show="!filteredTasks.length">No tasks available</div>
+			</md-list>
+		</md-content>
+
+		<md-sidenav md-component-id="right" class="md-sidenav-right">
+		<form name="taskForm" novalidate>
+			<md-select ng-model="newTask.priority">
+				<md-select-label>Priority</md-select-label>
+				<md-option ng-value="$index" ng-repeat="priority in priorities">{{priority}}</md-option>
+			</md-select>
+
+			<md-input-container>
+				<label>Title (required)</label>
+				<input name="title" ng-model="newTask.title" required minlength="3" maxlength="50">
+				<div ng-messages="taskForm.title.$error" ng-show="taskForm.title.$dirty">
+					<div ng-message="required" ng-show="taskForm.title.$error.required">This is required!</div>
+					<div ng-message="minlength" ng-show="taskForm.title.$error.minlength">That's too short!</div>
+					<div ng-message="maxlength" ng-show="taskForm.title.$error.maxlength">That's too long!</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container>
+				<label>Description (required)</label>
+				<textarea name="description" ng-model="newTask.description" required maxlength="500"></textarea>
+				<div ng-messages="taskForm.description.$error" ng-show="taskForm.description.$dirty">
+					<div ng-message="required" ng-show="taskForm.description.$error.required">This is required!</div>
+					<div ng-message="maxlength" ng-show="taskForm.description.$error.maxlength">That's too long!</div>
+				</div>
+			</md-input-container>
+
+			<md-button class="md-raised md-button" ng-click="closeNewTask()">Cancel</md-button>
+			<md-button class="md-raised md-primary md-button" ng-click="saveNewTask(taskForm)">Save</md-button>
+		</form>
+		</md-sidenav>
+
+		<p>Pros:</p>
+		<ul>
+			<li>Really fast development</li>
+		</ul>
+		<p>Cons:</p>
+		<ul>
+			<li>Bugs, alpha version</li>
+			<li>Not much docs</li>
+			<li>More comfortable for mobile devices than for desctop browsers</li>
+		</ul>
+	</body>
+</html>
+
