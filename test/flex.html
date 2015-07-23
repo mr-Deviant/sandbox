@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+	html, body {
+		height: 100%;
+		padding: 0;
+		margin: 0;
+	}
+	.container {
+	   -ms-box-orient: vertical;
+	   display: -ms-flex;
+	   height: 100%;
+	   display: -webkit-box;   /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
+	   display: -moz-flex; 
+	   display: -ms-flexbox;   /* MID: IE 10 */
+	   display: -webkit-flex;  /* NEW, Chrome 21+ */ 
+	   display: flex;          /* NEW: Opera 12.1, Firefox 22+ */    
+	   
+	   -ms-flex-direction: column; 
+	   -webkit-flex-direction: column;
+	   flex-direction: column; 
+	}
+	.content,
+	footer {
+	    width: 100%;   
+	}
+	.content {
+	    background: pink;
+
+	    -ms-flex: 1 1 auto;
+	    -webkit-flex: 1 1 auto;
+	    flex: 1 1 auto;
+	    overflow: auto;
+	    height:0;
+	    min-height: 0;
+	}
+	footer {
+	    background: gray;
+	}
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<div class="content">
+		Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.
+	    
+	    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.
+
+	</div>
+	<footer>
+	    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+	</footer>
+</div>
+
+</body>
+</html>
