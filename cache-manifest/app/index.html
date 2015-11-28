@@ -9,13 +9,19 @@
 	<script src="lib/jquery.js"></script>
 	<script src="lib/bootstrap/js/bootstrap.js"></script>
 	<script src="javascript.js"></script>
+
+	<link href="lib/offline.js/offline-theme-slide.css" rel="stylesheet">
+	<!--link href="lib/offline.js/offline-theme-slide-indicator.css" rel="stylesheet"-->
+	<link href="lib/offline.js/offline-language-english.css" rel="stylesheet">
+	<!--link href="lib/offline.js/offline-language-english-indicator.css" rel="stylesheet"-->
+	<script src="lib/offline.js/offline.min.js"></script>
 </head>
 <body>
 <script>
 $(document).ready(function () {
 	// Check if page is online
 	var isOnline = navigator.onLine;
-	$('#online').text(isOnline);
+	$('#online').text(isOnline); 
 });
 
 // Online/offline actions
@@ -46,6 +52,12 @@ $.getJSON('ajax.json', function(data) {
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-md-12">
+			<p>Results:</p>
+			<p><span class="glyphicon glyphicon-thumbs-up text-success"></span> navigator.onLine displays if wi-fi is turned on/off on Windows<br> offline.js is checking if server & lan is avialable</p>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-md-3 text-center" id="css">
 			<h1>CSS loaded</h1>
 		</div>
@@ -62,7 +74,7 @@ $.getJSON('ajax.json', function(data) {
 	<div class="row">
 		<div class="col-md-12">
 			<p>Results:</p>
-			<p><span class="glyphicon glyphicon-thumbs-up text-success"></span> Work fine when user select File -> Work Offline (Firefox already cache all files, Safari only mentioned in cache manifest)</p>
+			<p><span class="glyphicon glyphicon-thumbs-up text-success"></span> Work fine on Windows<br>Work fine when user select File -> Work Offline (Firefox already cache all files, Safari only mentioned in cache manifest)</p>
 			<p><span class="glyphicon glyphicon-thumbs-down text-danger"></span> Don't work whenever a browser is no longer capable of connecting to the network</p>
 		</div>
 	</div>
