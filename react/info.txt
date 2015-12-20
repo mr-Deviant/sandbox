@@ -1,0 +1,3 @@
+http://habrahabr.ru/post/248799/
+https://facebook.github.io/react/docs/tutorial.html
+

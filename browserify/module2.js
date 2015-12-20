@@ -1,0 +1,1 @@
+module.exports = 'This is content of module #2';

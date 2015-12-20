@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Browserify example</title>
+</head>
+<body>
+<p>Browserify is a tool for compiling node-flavored commonjs modules for the browser.</p>
+
+<p>You can use browserify to organize your code and use third-party libraries even if you don't use node itself in any other capacity except for bundling and installing packages with npm.</p>
+
+<p><b>How to install</b><br>
+<code>npm install -g browserify</code></p>
+
+<p>Now recursively bundle up all the required modules starting at client.js into a single file called client.bundle.js with the <b>browserify command:</b><br>
+<code>browserify client.js -o client.bundle.js</code></p>
+
+<h2></h2>
+
+<script src="client.bundle.js"></script>
+</body>
+</html>
