@@ -8,13 +8,61 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 </head>
 <body>
-	<div id="example"><!-- This element's contents will be replaced with your component. --></div>
-	<script type="text/babel"> //  src="src/helloworld.js"
-		//var React = require('react');
-		//var ReactDOM = require('react-dom');
+	<div id="shoutbox"><!-- This element's contents will be replaced with your component --></div>
+	<script type="text/babel"> // Or src="src/helloworld.js"
+		var ShoutBox = React.createClass({
+			getInitialState: function () {
+				return {data: ['message 1', 'message 2']};
+			},
+			render: function() {
+				return (
+					<div className="shoutBox">
+						<h1>Shoutbox</h1>
+						<Messages data={this.state.data} />
+						<Form />
+					</div>
+				); // Or React.createElement('div', {className: "shoutBox"}, "...")
+			} 
+		});
+
+		var Messages = React.createClass({
+			render: function() {
+				return (
+					<div className="messages">
+					{this.props.data.map(function(message, index) {
+						return (
+							<p key={index}>{message}</p>
+						);
+					}, this)}
+					</div>
+				);
+			} 
+		});
+
+		var Form = React.createClass({
+			getInitialState: function() {// Get initial value of the field
+				return {value: ''};
+			},
+			handleChange: function(event) { // Allow user to change text in the field
+				this.setState({value: event.target.value});
+			},
+			handleSubmit: function (event) {
+				event.preventDefault();
+				var message = this.state.value.trim();
+			},
+			render: function() {
+				var value = this.state.value;
+				return (
+					<form className="form" onSubmit={this.handleSubmit}>
+						<input type="text" placeholder="Message" value={value} onChange={this.handleChange} /><input type="submit" value="Send" />
+					</form>
+				);
+			} 
+		});
+
 		ReactDOM.render(
-			<h1>Hello, world!</h1>, // JSX syntax https://facebook.github.io/react/docs/jsx-in-depth.html
-			document.getElementById('example')
+			<ShoutBox />, // Or React.createElement(ShoutBox, null) or JSX (https://facebook.github.io/react/docs/jsx-in-depth.html)
+			document.getElementById('shoutbox')
 		);
 	</script>
 </body>
