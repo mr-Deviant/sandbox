@@ -1,0 +1,11 @@
+{
+  "name": "doc-embed",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "express": "^4.12.4",
+    "gulp": "^3.8.11",
+    "open": "0.0.5",
+    "path": "^0.11.14"
+  }
+}
