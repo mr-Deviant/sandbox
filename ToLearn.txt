@@ -1,6 +1,0 @@
-ATOM.js (editor)
-https://atom.io/
-
--
-http://habrahabr.ru/post/110193/
-http://atoms.azurewebsites.net/docs/index.html
