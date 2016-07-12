@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+	<link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" />
+	<link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css">
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+	<script type="text/javascript" src="bower_components/moment/locale/en-gb.js"></script>
+	<script type="text/javascript" src="bower_components/moment/locale/da.js"></script>
+	<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    
+	<link rel="stylesheet" href="bower_components/bootstrap-ui-datetime-picker/dist/ui-bootstrap-csp.css" />
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-i18n/angular-locale_da.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
+	<!--script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.tpls.js"></script-->
+
+	<style>
+	.opinion {
+		border-left: 5px solid grey;
+	}
+	</style>
+</head>
+<body>
+<div class="container-fluid">
+	<!-- http://eonasdan.github.io/bootstrap-datetimepicker/ -->
+
+	<h1>Bootstrap 3 Datepicker</h1>
+
+	<h3>Examples:</h3>
+
+    <div class="row">
+        <div class="col-sm-6">
+	        <form class="form-horizontal">
+	            <div class="form-group">
+	            	<label class="control-label col-sm-6">Danish, separated date & time, step 5 minutes</label>
+	                <div class="input-group col-sm-6 date" id="datetimepicker1">
+	                    <input type="text" class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
+	            </div>
+	        </form>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+	            <form class="form-horizontal">
+	            	<label class="control-label col-sm-6">English, combined date & time, disabled dates</label>
+	                <div class="input-group col-sm-6 date" id="datetimepicker2">
+	                    <input type="text" class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
+	            </form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+        	var options1 = {
+        		locale: 'da',
+        		format: 'DD MMMM YYYY HH:mm',//DD/MM/YYYY HH:mm
+        		stepping: 5
+        	};
+
+        	var options2 = {
+        		locale: 'en-gb',
+        		format: 'DD-MM-YYYY hh:mm A',//
+        		sideBySide: true,
+        		minDate: Date.now(),
+        		maxDate: Date.now() + 7 * 24 * 60 * 60 * 1000
+        	};
+
+            $(function () {
+                $('#datetimepicker1').datetimepicker(options1);
+                $('#datetimepicker2').datetimepicker(options2);
+            });
+        </script>
+    </div>
+
+	<table class="table table-striped table-hover">
+	<thead>
+	<tr>
+		<th>Acceptance criteria</th>
+		<th>Yes/No</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>The datetime control allows entering date and time.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides the user the option to enter date in text.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides the user the option to enter time in text.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an easy to use graphical interface for selecting a date.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an easy to use graphical interface for setting a time.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an option to clear the date and time.</td>
+		<td><span class="text-danger">N</span> (but it's not a problem to add)</td>
+	</tr>
+	<tr>
+		<td>The datetime control should have the option to set the min and max date and time of the control.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The dateime allows showing dates outside min and max date time even though these are defined.</td>
+		<td><span class="text-success">Y</span>&<span class="text-danger">N</span> (only from months with avialable dates)</td>
+	</tr>
+	<tr>
+		<td>It should be easy to move out of the date time control and continue in the form. E.g. pressing enter or tab or something similar. </td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an option to write captia deadline relative syntax. E.g. "+1" for one day from now.</td>
+		<td><span class="text-danger">N</span></td>
+	</tr>
+	</tbody>
+	</table>
+
+	<ul class="opinion">
+		<li>Has the best usability</li>
+		<li>We need to write angular wrapper</li>
+		<li>We need to customize botstrap css files because all standart styles on page would be changed in bootstrap way</li>
+		<li>Doesn't support working with keyboard & scrolling</li>
+		<li>Has bug with AM/PM button</li>
+	</ul>
+
+	<!-- https://github.com/Gillardo/bootstrap-ui-datetime-picker https://angular-ui.github.io/bootstrap/ -->
+
+	<br />
+	<h1>Bootstrap-UI/datetime-picker</h1>
+
+	<h3>Examples:</h3>
+
+	<script>
+		var myApp = angular.module('myApp', ['ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+
+		myApp.controller('myController', ['$scope', function($scope) {
+			$scope.datetimes = [new Date(), new Date(), new Date()];
+			$scope.open = [false, false, false];
+
+			$scope.minDate = Date.now();
+        	$scope.maxDate = Date.now() + 7 * 24 * 60 * 60 * 1000;
+
+        	$scope.dateOptions = {
+				showWeeks: false
+			};
+
+			$scope.timeOptions = {
+				showMeridian: false,
+				readonlyInput: false
+			};
+			
+		    $scope.openCalendar = function(event, prop) {
+		        event.preventDefault();
+		        event.stopPropagation();
+
+		        $scope.open[prop] = true;
+		    }
+		}]);
+	</script>
+
+	<div class="row" ng-app="myApp" ng-controller="myController">
+        <div class="col-sm-6">
+	        <form class="form-horizontal">
+	            <div class="form-group">
+	            	<label class="control-label col-sm-6">Danish localization</label>
+	                <div class="input-group col-sm-6 date">
+					    <input type="text" class="form-control"
+					    	datetime-picker = "dd/MM/yyyy HH:mm"
+					    	datepicker-options = "dateOptions"
+					    	ng-model = "datetimes[0]"
+					    	is-open = "open[0]"
+					    	min-date = "minDate"
+	                    	max-date = "maxDate"
+	                    	close-text = "Luk"
+	                    	clear-text = "Ryd"
+	                    	today-text= "I dag"
+	                    	time-text = "Tid"
+	                    	date-text = "Dato"
+	                    	now-text = "Nu"
+					    />
+					    <span class="input-group-addon" ng-click="openCalendar($event, 0)">
+					        <span class="glyphicon glyphicon-calendar"></span>
+					    </span>
+	                </div>
+	            </div>
+	        </form>
+        </div>
+        <div class="col-sm-6">
+			<div class="form-group">
+				<form class="form-horizontal">
+					<label class="control-label col-sm-6">English buttons, separated date & time</label>
+					<div class="input-group date">
+						<input type="text" class="form-control"
+							datetime-picker="dd-MM-yyyy"
+							ng-model="datetimes[1]"
+							is-open="open[1]"
+							enable-time="false"
+							close-on-date-selection="false"
+						>
+						<span class="input-group-addon" ng-click="openCalendar($event, 1)">
+					        <span class="glyphicon glyphicon-calendar"></span>
+					    </span>
+						<input type="text" class="form-control"
+							datetime-picker="HH:mm"
+							ng-model="datetimes[2]"
+							is-open="open[2]"
+							enable-date="false"
+							timepicker-options = "timeOptions"
+						>
+						<span class="input-group-addon" ng-click="openCalendar($event, 2)">
+					        <span class="glyphicon glyphicon-time"></span>
+					    </span>
+					</div>
+				</form>
+			</div>
+        </div>
+    </div>
+
+    <p>P. S. It support localization, but on same page can't be simultaneously datetime pickers on different languages. For translating buttons text was used google translate.</p>
+
+	<table class="table table-striped table-hover">
+	<thead>
+	<tr>
+		<th>Acceptance criteria</th>
+		<th>Yes/No</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>The datetime control allows entering date and time.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides the user the option to enter date in text.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides the user the option to enter time in text.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an easy to use graphical interface for selecting a date.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an easy to use graphical interface for setting a time. </td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an option to clear the date and time. </td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control should have the option to set the min and max date and time of the control. </td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The dateime allows showing dates outside min and max date time even though these are defined.</td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>It should be easy to move out of the date time control and continue in the form. E.g. pressing enter or tab or something similar. </td>
+		<td><span class="text-success">Y</span></td>
+	</tr>
+	<tr>
+		<td>The datetime control provides an option to write captia deadline relative syntax. E.g. "+1" for one day from now.</td>
+		<td><span class="text-danger">N</span></td>
+	</tr>
+	</tbody>
+	</table>
+
+	<ul class="opinion">
+		<li>Already has angular wrapper</li>
+		<li>Support working with keyboard & scrolling</li>
+		<li>We need to customize botstrap css files because all standart styles on page would be changed in bootstrap way</li>
+		<li>Have bugs in API</li>
+	</ul>
+</div>
+</body>
+</html>
+<!--
+
+For angular http://dalelotts.github.io/angular-bootstrap-datetimepicker/
+For angular https://github.com/zhaber/datetimepicker
+Bootstrap for angular http://plnkr.co/edit/S8UqwvXNGmDcPXV7a0N3?p=preview https://github.com/Gillardo/bootstrap-ui-datetime-picker
+For bootstrap https://eonasdan.github.io/bootstrap-datetimepicker/ http://stackoverflow.com/questions/19482449/connecting-datetimepicker-to-angularjs http://cdmckay.org/blog/2014/12/08/how-to-create-an-angular-directive-for-eonasdans-bootstrap-datetime-picker/
+https://libraries.io/bower/angular-datetimepicker
+http://demos.shieldui.com/web/datetimepicker/angularjs
+YUI3 http://yuilibrary.com/yui/docs/calendar/calendar-simple.html
+ExtJS http://dev.sencha.com/extjs/5.1.0/examples/calendar/index.html
+jQuery UI http://jqueryui.com/datepicker/
+Angular UI http://angular-ui.github.io/ui-date/ https://github.com/angular-ui/ui-date
+FormStamp http://formstamp.github.io/#/datetime
+For twitter bootstrap http://www.eyecon.ro/bootstrap-datepicker/
+http://webix.com/demo/calendar/datepicker/
+http://xdsoft.net/jqplugins/datetimepicker/#range
+
+-->

@@ -1,0 +1,14 @@
+{
+  "name": "datepicker",
+  "version": "0.0.1",
+  "description": "New datetime picker examples",
+  "main": "index.html",
+  "dependencies": {
+    "angular": "~1.4.0",
+    "eonasdan-bootstrap-datetimepicker": "~4.7.14",
+    "bootstrap": "~3.3.4",
+    "bootstrap-ui-datetime-picker": "~1.1.0",
+    "angular-bootstrap": "~0.13.0",
+    "angular-i18n": "~1.4.0"
+  }
+}

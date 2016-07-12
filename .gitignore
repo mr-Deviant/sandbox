@@ -1,1 +1,3 @@
 /cache-manifest/node_modules
+/datetime-picker/bower_components
+.DS_Store

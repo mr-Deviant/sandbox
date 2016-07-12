@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- https://rawgit.com/mr-Deviant/sandbox/master/doc-embed/index-v7.html -->
+<html>
+<head>
+	<title>Document embed test</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+<h1>Embed tag (or using PDFobject)</h1>
+<div class="row">
+	<div class="col-md-12 text-center">
+		<p>PDF</p>
+    <object data="example.pdf#scrollbar=0&toolbar=0&navpanes=0" type="application/pdf" height="446" width="315">
+      <p style="background-color: #FFBABA; color: #d8000c; padding: 1em;">Your browser does not support PDFs. Please install <a href="https://get.adobe.com/uk/reader/">Acrobar Reader</a> or any other PDF reader.</p>
+    </object>
+	</div>
+</div>
+<p>Example is not working in IE from server (I think that server is not configured properly)</p>
+<p class="text-success">+ Native support (pdf support build in all major browsers)</p>
+<p class="text-success">+ Work offline</p>
+<p class="text-danger">- It require browser plugins</p>
+<p class="text-danger">- We can customize controls only if plugin supports adobe acrobat parameters</p>
+
+
+<h1>PDF.js</h1>
+<div class="row">
+	<div class="col-md-12 text-center">
+		<p>PDF</p>
+		<canvas id="pdf-js-canvas" style="width: 315px; height: 446px;"></canvas>
+	</div>
+</div>
+<p class="text-success">+ Don't require any plugins</p>
+<p class="text-danger">- Support only PDF</p>
+<p class="text-danger">- Takes much time & resources for rendering, maybe better to render it on server?</p>
+<p class="text-danger">- Don't work in outlook & iOS</p>
+<script src="pdf.js/pdf.js"></script>
+<script>
+  //
+  // If absolute URL from the remote server is provided, configure the CORS
+  // header on that server.
+  //
+  var url = 'example.pdf';
+
+  //
+  // Disable workers to avoid yet another cross-origin issue (workers need
+  // the URL of the script to be loaded, and dynamically loading a cross-origin
+  // script does not work).
+  //
+  // PDFJS.disableWorker = true;
+
+  //
+  // The workerSrc property shall be specified.
+  //
+  PDFJS.workerSrc = 'pdf.js/pdf.worker.js';
+
+  //
+  // Asynchronous download PDF
+  //
+  PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf) {
+    //
+    // Fetch the first page
+    //
+    pdf.getPage(1).then(function getPageHelloWorld(page) {
+      var scale = 1.5;
+      var viewport = page.getViewport(scale);
+
+      //
+      // Prepare canvas using PDF page dimensions
+      //
+      var canvas = document.getElementById('pdf-js-canvas');
+      var context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      //
+      // Render PDF page into canvas context
+      //
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  });
+</script>
+
+
+<h1>Google Docs Viewer</h1>
+<div class="row">
+	<div class="col-md-6 text-center">
+		<p>DOCX</p>
+		<embed width="315" height="446" src="https://docs.google.com/viewer?url=https%3A%2F%2Fgithub.com%2Fmr-Deviant%2Fsandbox%2Fraw%2Fmaster%2Fdoc-embed%2Fexample.docx&embedded=true"></embed>
+	</div>
+	<div class="col-md-6 text-center">
+		<p>PDF</p>
+		<embed width="315" height="446" src="https://docs.google.com/viewer?url=https%3A%2F%2Fgithub.com%2Fmr-Deviant%2Fsandbox%2Fraw%2Fmaster%2Fdoc-embed%2Fexample.pdf&embedded=true"></embed>
+	</div>
+</div>
+<p class="text-success">+ Don't require any plugins</p>
+<p class="text-success">+ Support a lot of document types</p>
+<p class="text-danger">- Might be closed at any time</p>
+<p class="text-danger">- Not work offline</p>
+<p class="text-danger">- We can't fully customize it</p>
+<p class="text-danger">- Not secured</p>
+
+
+<h1>Microsoft Office Online</h1>
+<div class="row">
+	<div class="col-md-12 text-center">
+		<p>DOCX</p>
+		<embed width="315" height="446" src="https://view.officeapps.live.com/op/embed.aspx?src=https%3A%2F%2Fgithub%2Ecom%3A443%2Fmr%2DDeviant%2Fsandbox%2Fraw%2Fmaster%2Fdoc%2Dembed%2Fexample%2Edocx&wdStartOn=1"></embed>
+	</div>
+</div>
+<p class="text-success">+ Don't require any plugins</p>
+<p class="text-danger">- Support only Word, Excel and PowerPoint documents</p>
+<p class="text-danger">- Might be closed at any time</p>
+<p class="text-danger">- Not work offline</p>
+<p class="text-danger">- We can't fully customize it</p>
+<p class="text-danger">- Not secured</p>
+
+
+</body>
+</html>
