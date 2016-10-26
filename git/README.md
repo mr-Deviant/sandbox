@@ -19,3 +19,6 @@
 Checkout branch you want to merge to: `git checkout develop`
 Upply changes from new_branch to develop: `git merge new_branch`
 - Show all brahches `git status`
+
+
+https://habrahabr.ru/post/273897/

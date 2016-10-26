@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ECMASCRIPT 6</title>
+</head>
+<body>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+<style>
+.example {
+	border: 1px solid grey;
+	display: flex;
+	padding: 0;
+	margin-bottom: 10px;
+	white-space: pre;
+}
+.example > * {
+	padding: 5px;
+	width: 50%;
+}
+.example > :first-child {
+	border-right: 1px solid grey;
+}
+</style>
+<!-- Use BabelJs as polyfill -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.14.0/babel.min.js"></script>
+<!-- Code hightlighter -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<!-- Just for DOM manipulation -->
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<p>TODO: read <a href="https://leanpub.com/understandinges6/read">Understanding ECMAScript 6 </a> and <a href="http://es6-features.org">ECMAScript 6 - New Features: Overview & Comparison</a></p>
+
+<script class="code">
+// Variable without hoisting
+let i = 0;
+</script>
+
+<script class="code">
+// Can't assign new values to constants
+// But you can change properties of constants
+const MY_CONST = 'unchangable';
+</script>
+
+<script class="code">
+// Quick object creating
+var name = 'John',
+	color = 'red';
+
+var obj = {name, color};
+</script>
+
+<script class="code">
+// Quick assignment from objects, arrays or functions
+var obj = {name: 'John', color: 'red'};
+
+var {name: userName, color: userColor} = obj;
+// or just
+var {name, color = 'blue'} = obj; // Blue is default value
+</script>
+
+<script class="code">
+// Optional parameters
+var defaultSize = function () {};
+var func = function (size = 2, page = size - 1, def = defaultSize()) {};
+</script>
+
+<script class="code">
+// Rest operator
+var addValues = function (...values) { // Values now is array
+	var res = 0;
+	for (var value of values) { // Iterate over collection values and ignore properties of object
+		res += value;
+	}
+}
+
+var days = ['mon', 'tue', 'wed'];
+let [firstDay, ...otherDays] = days;
+
+// Spread operator (takes an array and spreads it in variable arguments)
+var numbers = [5, 1, 9];
+var minNumber = Math.min(...numbers);
+</script>
+
+<script class="code">
+var Parent = class ParentClass {
+	['parent' + 'Method']() {
+		return 'This is just a parent method';
+	}
+}
+class Palette extends Parent { // Not hoisted, but hoisted in case: var palette = class {}, no multiple inheritance
+	// this.prop = 'test'; // SyntaxError: missing : after property id
+	constructor (colors) {
+		super(); // Exception thrown here when not called, calls parent constructor
+		this.colors = colors; // Public property
+	}
+	childMethod() {
+		return super.parentMethod() + ' called from child'; // super is a link to parent class, super() calls parent constructor
+	}
+	static staticMethod() {
+		return 'This is static';
+	}
+	get color() {
+		return this._color;
+	}
+	set color(newColor) {
+		this._color = newColor;
+	}
+	toString() { // Or Palette.prototype.toString
+		return `Colors in palette: ${this.colors}`;
+	}
+}
+var palette = new Palette(['red', 'green', 'blue']); // Or const
+
+Palette.staticMethod();
+
+// Access property
+console.log(palette.colors); // ["red", "green", "blue"]
+
+// Getters and setters
+palette.color = 'red';
+console.log(palette.color); // red
+
+console.log(palette.toString()); // Colors in palette: red,green,blue
+
+console.log(palette.childMethod()); // This is just a parent method called from child
+</script>
+
+<script class="code">
+// Promises
+var isTimeOdd = function (type) {
+	if (['milliseconds', 'seconds'].indexOf(type) === -1) {
+		throw new Error('Such type is not supported');
+	}
+	var d = new Date(),
+		time = type === 'seconds' ? d.getSeconds() : d.getMilliseconds();
+
+	return new Promise(function(resolve, reject) {
+		if (time % 2) {
+			resolve(type + ' are odd (' + time + ')');
+		} else {
+			reject(type + ' are even (' + time + ')');
+		}
+	});
+};
+
+// Check that seconds and minutes are odd
+isTimeOdd('milliseconds')
+	.then(function (msg) {
+		console.log(msg);
+		return isTimeEven('seconds');
+	}/*, function (error) {console.log('Milliseconds are even but we will continue chain');}*/)
+	.then(function (msg) {
+		console.log(msg + "/r/n" + 'Passed!!!');
+	})
+	.catch(function (error) { // One error handler for chain, in case first promise will be rejected chain will be stopped
+		console.log('Error: ' + error);
+	});
+</script>
+
+<script class="code">
+// Arrow functions (callback functions)
+document.addEventListener('DOMContentLoaded', event => console.log(event)); // this stay lexically bounded
+</script>
+
+<script class="code">
+// Sets and maps
+var user = {name: 'Stas'}
+	usersMap = new Map(),
+	usersSet = new Set();
+
+usersMap.set(1, user);
+console.log(usersMap.has(1)); // true
+console.log(usersMap.size); // 1
+usersMap.delete(1);
+
+usersSet.add(user);
+console.log(usersSet.has(user)); // true
+console.log(usersSet.size); // 1
+for (var user of usersSet) {
+	console.log(user);
+}
+usersSet.delete(user);
+</script>
+
+<script class="code">
+// Template literals
+var name = 'Stas';
+var message = `Hello ${name}.
+Nice to see you!`;
+console.log(message);
+</script>
+
+<script class="code">
+// Modules (not supported by current browsers, need to use Babel)
+export function moduleFunc () {
+	console.log('This is function is separate module');
+}
+export function moduleFunc2 () {
+	console.log('This is function is separate module');
+}
+import {moduleFunc, moduleFunc2 as anotherFunc} from './ecmascript-6-export.js'; // Or import * as something from 'ecmascript-6'
+moduleFunc();
+</script>
+
+<script>
+$('.code').each(function (index, element) {
+	var rawCode = $(element).html().trim(),
+		babelCode = Babel.transform(rawCode, {presets: ['es2015'], comments: false}).code,
+		row = $('<div class="example">' +
+			'<div>' + rawCode + '</div>' +
+			'<div>' + babelCode + '</div>' +
+		'</div>').appendTo('body');
+
+	hljs.highlightBlock(row[0]);
+});
+</script>
+</body>
+</html>

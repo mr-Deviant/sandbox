@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		h1 {color: red;}
+	</style>
+	<!-- Web-component.js polyfill -->
+	<script src="https://cdn.jsdelivr.net/webcomponentsjs/0.7.22/webcomponents.min.js"></script>
+</head>
+<body>
+<p>TODO: check Polymer and maybe X-tag.</p>
+<template id="my-tpl">
+	<style>
+		h1 {color: green;}
+	</style>
+	<h1>My component with template</h1>
+</template>
+<script>
+	var MyCmpProto = Object.create(HTMLElement.prototype); // Extend HTML element
+	MyCmpProto.createdCallback = function () {
+		//this.innerHTML = '<h1>My component</h1>';
+
+		// Or using Shadow DOM (don't work in IE and Mozilla)
+		//var shadow = this.createShadowRoot(); // Other styles won't influence our code
+		//shadow.innerHTML = '<h1>My component with Shadow DOM</h1>';
+
+		// Or by cloning template
+		var template = document.querySelector('#my-tpl');
+		var clone = document.importNode(template.content, true);
+		this.createShadowRoot().appendChild(clone);
+	};
+	var MyCmp = document.registerElement('my-cmp', {prototype: MyCmpProto}); // Create new element, name should contain dash in order browser knows that it is custom element
+	document.body.appendChild(new MyCmp());
+</script>
+<!-- link rel="import" file is not rendered, you have to insert it by yourself. Files shoud be on the same domain. -->
+<link rel="import" href="import.html">
+<script>
+var link = document.querySelector('link[rel="import"]'),
+	content = link.import,
+	element = content.querySelector('.my-element');
+
+document.body.appendChild(element);
+</script>
+</body>
+</html>
