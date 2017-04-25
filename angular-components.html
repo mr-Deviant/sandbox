@@ -1,0 +1,121 @@
+<!-- promises, css preprocessors -->
+<!doctype html>
+<html ng-app="heroApp">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.js"></script>
+	<script>
+angular.module('heroApp', ['ngRoute'])
+	.controller('HeroController', function() {
+		this.heroes = [
+			{name: 'Superman', selected: false},
+			{name: 'Spiderman', selected: false},
+			{name: 'Batman', selected: false}
+		];
+
+		this.createHero = function (hero) {
+			this.heroes.push(hero);
+		}
+
+		this.deleteHero = function (idx) {
+			this.heroes.splice(idx, 1);
+		};
+	})
+	.component('allHeroes', {
+		template: `<p>All heroes:</p>
+			<ul>
+				<li ng-repeat="item in $ctrl.heroes">{{item.name}} <span parent-hero hero-selected="item.selected"><input type="checkbox" name="{{item.name}}-selected" ng-model="item.selected"></span> <button ng-click="$ctrl.onDelete({idx: $index})">Delete</button></li>
+			</ul>
+			<p><input type="name" name="name" ng-model="$ctrl.newHero.name" placeholder="Name"> <input type="checkbox" name="{{$ctrl.item.name}}-selected" ng-model="$ctrl.newHero.selected"> <button ng-click="$ctrl.create()">Create</button></p>`,
+		controller: function () {
+			var ctrl = this;
+
+			ctrl.newHero = {
+				name: '',
+				selected: false
+			};
+
+			var newHero = Object.assign({}, ctrl.newHero); 
+
+			ctrl.create = function () {
+				ctrl.onCreate({hero: ctrl.newHero});
+				ctrl.newHero = newHero;
+			};
+		},
+		bindings: {
+			heroes: '=', // = Antipattern
+			onCreate: '&',
+			onDelete: '&'
+		}
+	})
+	.component('selectedHeroes', {
+		template: `<p>Selected heroes:</p>
+			<ul>
+				<li ng-repeat="item in $ctrl.heroes" ng-if="item.selected">{{item.name}}</li>
+			</ul>`,
+		controller: function () {
+			var ctrl = this;
+		},
+		bindings: {
+			heroes: '='
+		}
+	})
+	.directive('parentHero', function() {
+		return {
+			restrict: 'A',
+			scope: {
+				heroSelected: '='
+			},
+			transclude: true,
+			template: `<span style="border: 1px solid grey;" child-hero><span ng-transclude></span></span>`,
+			controller: ['$scope', function ($scope) {
+				this.parentFunc = function () {
+					alert('it works');
+				};
+			}],
+			link: function(scope, element, attrs, ctrl) {
+				element.on('click', function () {console.log('click');
+					if (scope.heroSelected) {
+						element.children(':first')[0].style.border = '1px solid green';
+					} else {
+						element.children(':first')[0].style.border = '1px solid red';
+					}
+				});
+			}
+		};
+	})
+	.directive('childHero', function() {
+		return {
+			restrict: 'A',
+			scope: true,
+			require: '^parentHero',
+			template: ``,
+			link: function(scope, element, attrs, ctrl) {
+				//ctrl.parentFunc();
+			}
+		};
+	})
+	.config(function($routeProvider, $locationProvider) {
+		$routeProvider
+		.when('/', {
+			//controller: 'HeroController',
+			//controllerAs: 'ctrl',
+			template: '<div><all-heroes heroes="ctrl.heroes" on-create="ctrl.createHero(hero)" on-delete="ctrl.deleteHero(idx)"></all-heroes></div>'
+		})
+		.when('/selected', {
+			//controller: 'HeroController',
+			//controllerAs: 'ctrl',
+			template: '<div><selected-heroes heroes="ctrl.heroes"></selected-heroes></div>'
+		});
+
+		$locationProvider.html5Mode(false).hashPrefix("!");
+	});
+	</script>
+</head>
+<body>
+	<div ng-controller="HeroController as ctrl">
+		<a href="#!/">All</a> | <a href="#!/selected">Selected</a>
+		<div ng-view></div>
+	</div>
+</body>
+</html>

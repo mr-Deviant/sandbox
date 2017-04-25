@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<title>RxJS</title>
+	<script src="https://unpkg.com/@reactivex/rxjs@5.3.0/dist/global/Rx.js"></script>
+</head>
+<body>
+<p>Diagrams: <a href="http://rxmarbles.com/">http://rxmarbles.com/</a></p>
+<p>Official docs: <a href="http://reactivex.io/rxjs/manual/overview.html#introduction">http://reactivex.io/rxjs/manual/overview.html#introduction</a></p>
+<p>Now exists:</p>
+<ul>
+	<li>RxJS 5 <a href="https://github.com/ReactiveX/RxJS">https://github.com/ReactiveX/RxJS</a></li>
+	<li>RxJS 4 <a href="https://github.com/Reactive-Extensions/RxJS">https://github.com/Reactive-Extensions/RxJS</a></li>
+</ul>
+<input type="text" name="test-input" id="test-input">
+<script>
+	// Observable: represents the idea of an invokable collection of future values or events
+	var observable = Rx.Observable.create(function (observer) {
+		// Observer: is a collection of callbacks that knows how to listen to values delivered by the Observable
+		try {
+			observer.next(1);
+			observer.next(2);
+			observer.next(3);
+			setTimeout(() => {
+				observer.next(4);
+				observer.complete();
+			}, 1000);
+		} catch (err) {
+    		observer.error(err); // delivers an error if it caught one
+		}
+
+		// Provide a way of canceling and disposing the interval resource
+		// return function unsubscribe() {
+		// 	// Clean stuff
+		// };
+	});
+
+	// Subscription: represents the execution of an Observable, is primarily useful for cancelling the execution
+	var subscription = observable.subscribe({
+		next: x => console.log('got value ' + x),
+		error: err => console.error('something wrong occurred: ' + err),
+		complete: () => console.log('done'),
+	});
+
+	// subscription.unsubscribe(); // Cancel execution
+
+	// Creation operations http://reactivex.io/rxjs/manual/overview.html#creation-operators
+	// fromEvent
+	Rx.Observable
+		.fromEvent(document.getElementById('test-input'), 'keydown')
+		.subscribe((event) => console.log('Key pressed: ', event.key));
+
+
+    //Operators: are pure functions that enable a functional programming style of dealing with collections with operations like map, filter, concat, flatMap, etc.
+
+    //Subject: is the equivalent to an EventEmitter, and the only way of multicasting a value or event to multiple Observers.
+
+    //Schedulers: are centralized dispatchers to control concurrency, allowing us to coordinate when computation happens on e.g. setTimeout or requestAnimationFrame or others.
+
+</script>
+</body>
+</html>

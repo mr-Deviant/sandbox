@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>Promises</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+</head>
+<body ng-app="app" ng-controller="ctrl">
+<script>
+var app = angular.module('app', []);
+app.controller('ctrl', ['$scope', '$q', function($scope, $q) {
+	// .then возвращает промис, поэтому внутри мы можем использовать $q.reject(err)
+
+	function asyncFunct(name) {
+		var deferred = $q.defer();
+
+		setTimeout(function () {
+			deferred.notify('Notify: ' + name); // Provides updates on the status of the promise's execution
+
+			if (1) {
+				deferred.resolve('Resolved: ' + name);
+			} else {
+				deferred.reject('Rejected: ' + name);
+			}
+		}, 1000);
+
+		return deferred.promise; // Promise object associated with this deferred.
+	}
+
+	var promise = asyncFunct('Robin Hood');
+	// Любое возвращаемое значение из then придет в success-callback следующего then. Не вернули ничего — в success-callback придет undefined
+	// Если зареджектили, то параметр реджекта прийдет в еррор функцию
+	promise.then(function(greeting) { // successCallback
+		console.log('Success: ' + greeting);
+	}, function(reason) { // errorCallback
+		console.log('Failed: ' + reason);
+	}, function(update) { // notifyCallback
+		console.log('Got notification: ' + update);
+	})
+	.then(function (success) {
+		if (1) {
+			return 'Yeees';
+		} else {
+			return $q.reject('Nooo');
+		}
+	}, function (error) {
+		return $q.reject('Nooo');
+	})
+	// Or catch(errorCallback)
+	// Or finally(callback)
+	;
+
+	// One after another (waterfall)
+	//promise.then().then().then();
+
+	// Parallel
+	//$q.all([request1, request2]).then();
+}]);
+
+
+// Parallel
+// Posled
+
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Knockout example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+  </head>
+  <body>
+	<p>First name: <input type="text" data-bind="value: firstName"></p>
+	<p>Last name: <input type="text" data-bind="value: lastName"></p>
+	<p>Full name: <span data-bind="text: fullName"></span></p><!-- or <span data-bind="text: firstName"></span> <span data-bind="text: lastName"></span>  -->
+	<p>Killed:</p>
+	<ul data-bind="foreach: killed">
+		<li data-bind="text: name"></li>
+	</ul>
+	<button data-bind="click: kill">Kill</button>
+  	<script>
+  		// https://channel9.msdn.com/Events/MIX/MIX11/FRM08
+  		var viewModel = {
+  			firstName: ko.observable('Zoryan'), // 2 way binding
+  			lastName: ko.observable('Shkiryak'),
+  			killed: ko.observableArray([
+				{name: ko.observable('Motorolla')},
+				{name: ko.observable('Givi')}
+  			]),
+  			kill: function () {
+  				this.killed.push({name: ko.observable('Zaharchenko')});
+  			}
+  		}
+  		viewModel.fullName = ko.dependentObservable(function () {
+  			return this.firstName() + ' ' + this.lastName();
+  		}, viewModel);
+  		ko.applyBindings(viewModel);
+  	</script>
+  </body>
+</html>

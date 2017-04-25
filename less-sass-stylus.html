@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>LESS via SASS</title>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+	<style>
+	.table {
+		border: 1px solid grey;
+		width: 100%;
+	}
+	.code {
+		display: table-cell;
+		vertical-align: top;
+		white-space: pre;
+	}
+	</style>
+</head>
+<body>
+<!-- http://lesscss.org/features/ -->
+<!-- http://sass-lang.com/documentation/file.SASS_REFERENCE.html -->
+	<table class="table">
+	<tr>
+		<td></td>
+		<td>LESS source</td>
+		<td>SASS</td>
+		<td>Stylus</td>
+		<td>CSS</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			+ Better documentation
+		</td>
+		<td>
+			- Need Ruby
+		</td>
+		<td>
+			- Ugly
+		</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Variables (for colors, units, paths, ...)</td>
+		<td class="code">
+@selector: class;
+@property: background;
+@color: blue;
+@var: color; // Variables can be used in lazy loading
+.@{selector} {
+	@color: red;
+	color: @color; // Or @@var outputs value of @color
+	@{property}: green;
+}
+		</td>
+		<td class="code">
+$fontColor: red;
+$bgColor: blue;
+.class {
+	color: $fontColor; // !global - makes it available everythere
+	background: $bgColor;
+}	
+		</td>
+		<td class="code">
+fontColor = red
+bgColor = blue
+.class
+	color fontColor
+	background bgColor
+		</td>
+		<td class="code">
+.class {
+  color: red;
+  background: green;
+}
+		</td>
+	</tr>
+	<tr>
+		<td>Extend (better that Mixins)</td>
+		<td class="code">
+header {
+	&:extend(.class); // Or header:extend(.class, .class2, ... or class all) {}
+	// all - mean all rules in which used this class
+	background: blue;
+}
+.class {
+	color: red;
+}
+		</td>
+		<td class="code">
+header {
+	@extend .class;
+	background: blue;
+}
+.class {
+	color: red;
+}
+		</td>
+		<td class="code">
+
+		</td>
+		<td class="code">
+header {
+  background: blue;
+}
+.class,
+header {
+  color: red;
+}
+		</td>
+	</tr>
+	<tr>
+		<td>Mixins (worse than Extend)</td>
+		<td class="code">
+.border-radius {
+	border-radius: 5px;
+}
+// Mixin with () can be included, but won't be outputted
+// Mixins can be with same name, but with different number of parameters
+.background(@background-color; @border-color: green) { 
+	background-color: @background-color;
+	&:hover {
+		border: 1px solid @border-color;
+	}
+}
+.class {
+	border: 1px solid red;
+	.border-radius; // Or .border-radius()
+	.background(red; blue);
+}
+		</td>
+		<td class="code">
+.border-radius {
+  border-radius: 5px;
+}
+.class {
+  border: 1px solid red;
+  border-radius: 5px;
+  background-color: red;
+}
+.class:hover {
+  border: 1px solid blue;
+}
+		</td>
+		<td class="code">
+@mixin border-radius($radius: 5px) {
+	border-radius: $radius;
+}
+.class {
+	border: 1px solid red;
+	@include border-radius(15px);
+}
+		</td>
+		<td class="code">
+
+		</td>
+	</tr>
+	<tr>
+		<td>Nested Rules</td>
+		<td class="code">
+.class { // Works also for @media or @keyframe directives
+	color: black;
+
+	.child {
+		background-color: blue;
+	}
+
+	.parent & {
+		background-color: red;
+	}
+
+	&:after {
+		content: " !!! ";
+		display: block;
+	}
+
+	&-element {
+		background-color: green;
+	}
+}
+		</td>
+		<td class="code">
+.class {
+  color: black;
+}
+.class .child {
+  background-color: blue;
+}
+.parent .class {
+  background-color: red;
+}
+.class:after {
+  content: " !!! ";
+  display: block;
+}
+.class-element {
+  background-color: green;
+}
+		</td>
+		<td class="code">
+Same
+
+.funky {
+  font: {
+    family: fantasy;
+    size: 30em;
+    weight: bold;
+  }
+}
+		</td>
+		<td class="code">
+
+		</td>
+	</tr>
+	<tr>
+		<td>Operations</td>
+		<td class="code">
+.math {
+	background-color: #112244 + #111;
+	width: 50px*3 - 10px/2 + 1;
+}
+		</td>
+		<td class="code">
+.math {
+  background-color: #223355;
+  width: 146px;
+}
+		</td>
+		<td class="code">
+
+		</td>
+		<td class="code">
+
+		</td>
+	</tr>
+		<tr>
+		<td>Other</td>
+		<td class="code">
+
+		</td>
+		<td class="code">
+
+		</td>
+		<td class="code">
+$width: 100px;
+@debug "width=#{$width}";
+@warn "width=#{$width}";
+
+$var: true;
+.class {
+	background: @if ($var, orange, red);
+	@if #width >=480px and $width < 768px {
+		width: 50%;
+	} @else {
+		width: 100%;
+	}
+}
+
+$sizes: 10px, 20px, 30px;
+@for $i from 1 to length($sizes) {
+	#id-{$i} {
+		padding: nth($list, $i);
+	}
+}
+@each $size in $sizes {
+
+}
+
+		</td>
+		<td class="code">
+
+		</td>
+	</tr>
+	</table>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+	<script>
+	addEventListener('load', function() {
+		var code = document.querySelectorAll('.code');
+		code.forEach(function (element) {
+			hljs.highlightBlock(element);
+		});
+	});
+	</script>
+</body>
+</html>

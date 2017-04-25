@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Console</title>
+</head>
+<body>
+<script>
+console.clear(); // Non standart!!!
+
+
+console.log('Simple message');
+console.info('Info message');
+console.warn('Warning message');
+console.error('Error message');
+
+
+console.log('%cSuccess message', 'background-color: #dff0d8; border: 1px solid #d6e9c6; color: #3c763d; padding: 2px;');
+console.log('%cInfo message',    'background-color: #d9edf7; border: 1px solid #bce8f1; color: #31708f; padding: 2px;');
+console.log('%cWarning message', 'background-color: #fcf8e3; border: 1px solid #faebcc; color: #8a6d3b; padding: 2px;');
+console.log('%cError message',   'background-color: #f2dede; border: 1px solid #ebccd1; color: #a94442; padding: 2px;');
+
+
+console.log('String: %s. Digit: %.2d. Float: %.2f. Object: %o.', 'Text', 5, 7, {name: 'value'});
+
+
+console.log("Level 1");
+console.group(); // Expanded
+	console.log("Level 2");
+	console.groupCollapsed(); // Collapsed
+		console.log("Level 3");
+		console.warn("Level 3");
+	console.groupEnd();
+	console.log("Level 2");
+console.groupEnd();
+
+
+console.time('My timer');
+for(let i = 0 ; i < 9999; i++) { }
+console.timeEnd('My timer');
+
+
+foo();
+function foo() {
+	function bar() {
+		console.trace();
+	}
+	bar();
+}
+
+
+// Non standart!!!
+console.table([["John", "Smith"], ["Jane", "Doe"], ["Emily", "Jones"]]);
+
+
+console.assert(true === false, 'Worlds is in safe'); // Non standart!!!
+
+
+console.count('My counter'); // Non standart!!!
+console.count('My counter');
+console.count('My counter');
+
+
+console.dir({name: "value"}); // Non standart!!!
+</script>
+</body>
+</html>
