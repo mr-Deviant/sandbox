@@ -43,13 +43,25 @@
 		complete: () => console.log('done'),
 	});
 
-	// subscription.unsubscribe(); // Cancel execution
+	// Or
+	// var subscription = observable.subscribe(
+	// 	x => console.logconsole.log('got value ' + x),
+	// 	err => console.error('something wrong occurred: ' + err),
+	// 	() => console.logconsole.log('done')
+	// );
+
+	//subscription.unsubscribe(); // Cancel execution
 
 	// Creation operations http://reactivex.io/rxjs/manual/overview.html#creation-operators
 	// fromEvent
 	Rx.Observable
 		.fromEvent(document.getElementById('test-input'), 'keydown')
+		//.throttleTime(1000)
 		.subscribe((event) => console.log('Key pressed: ', event.key));
+
+	Rx.Observable.from([10, 20, 30])
+		.subscribe(x => console.log('Array value: ', x))
+		.unsubscribe();
 
 
     //Operators: are pure functions that enable a functional programming style of dealing with collections with operations like map, filter, concat, flatMap, etc.
