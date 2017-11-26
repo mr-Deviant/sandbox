@@ -4,6 +4,7 @@
 	<meta charset="UTF-8"> 
 	<title>RxJS</title>
 	<script src="https://unpkg.com/@reactivex/rxjs@5.3.0/dist/global/Rx.js"></script>
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs-dom/7.0.3/rx.dom.js"></script-->
 </head>
 <body>
 <p>Diagrams: <a href="http://rxmarbles.com/">http://rxmarbles.com/</a></p>
@@ -38,7 +39,7 @@
 
 	// Subscription: represents the execution of an Observable, is primarily useful for cancelling the execution
 	var subscription = observable.subscribe({
-		next: x => console.log('got value ' + x),
+		next: x => console.log('got value ' + x), // got value 1, got value 2, got value 3, ... got value 4, done
 		error: err => console.error('something wrong occurred: ' + err),
 		complete: () => console.log('done'),
 	});
@@ -50,18 +51,68 @@
 	// 	() => console.logconsole.log('done')
 	// );
 
-	//subscription.unsubscribe(); // Cancel execution
+	//subscription.unsubscribe(); // Cancel execution, same as dispose() on v4
 
 	// Creation operations http://reactivex.io/rxjs/manual/overview.html#creation-operators
 	// fromEvent
 	Rx.Observable
-		.fromEvent(document.getElementById('test-input'), 'keydown')
+		.fromEvent(document.getElementById('test-input'), 'keydown') // Or 'click', ...
 		//.throttleTime(1000)
-		.subscribe((event) => console.log('Key pressed: ', event.key));
+		.subscribe((event) => console.log('Key pressed: ', event.key)); // 1, 2,...
 
-	Rx.Observable.from([10, 20, 30])
-		.subscribe(x => console.log('Array value: ', x))
+	Rx.Observable.from([10, 10, 20, 30])
+		.distinct() // Emits only element that haven't been emited before
+		.subscribe(x => console.log('Array value: ', x)) // Array value:  10, Array value:  20, Array value:  30
 		.unsubscribe();
+
+	Rx.Observable.range(1, 5) // 1, 2, 3, 4, 5
+		.filter(item => item % 2 === 0) // 2, 4 - Test each element and return only satisfying the rule
+		.map(item => item + 1) // 3, 5 - Apply function to each element
+		.reduce((prev, cur) => prev + cur) // 8 - Single result of applying a function over each element
+		.subscribe(x => console.log('Range value: ', x)) // 8
+		.unsubscribe();
+
+//https://www.sitepoint.com/rxjs-functions-with-examples/
+
+	let one = Rx.Observable.from([1, 2]);
+	let two = Rx.Observable.timer(500);
+
+	// http://reactivex.io/documentation/operators/merge.html
+	one.merge(two).subscribe((values) => { // Alias "concat" - wait and just sends whichever value comes first from whichever sequence
+		console.log('One handler for both', values); // 1, 2, 0
+	});
+
+	// http://reactivex.io/documentation/operators/zip.html
+	one.zip(two)
+	.subscribe((values) => { // Or can be used "forkJoin" -  waiting for every sequence to provide a value each time
+		console.log('Wait untill first are done', values); // [1, 0]
+	});
+
+	Rx.Observable.forkJoin(
+		one,
+		two
+	).subscribe((values) => {
+		console.log('Wait untill all are done', values); // [2, 0]
+	});
+
+	// Infinite
+	// let infinite = Rx.Observable.interval(1000)
+	// 	.scan((prev, cur) => { // Same as Reduce() for infinite sequence
+	// 		return {
+	// 			sum: prev.sum + cur,
+	// 			count: prev.count + 1
+	// 		}
+	// 	}, {sum: 0, count: 0})
+	// 	.map(item => item.sum / item.count)
+	// 	.subscribe(x => console.log('Average:', x));
+
+	// Rx.DOM.Request.get('/products')
+	// .retry(5)
+	// .subscribe(
+	//  	x => console.log('got value ' + x),
+	// 		err => console.error('something wrong occurred: ' + err),
+	// 		() => console.logconsole.log('done')
+	// 	);
 
 
     //Operators: are pure functions that enable a functional programming style of dealing with collections with operations like map, filter, concat, flatMap, etc.
@@ -69,6 +120,8 @@
     //Subject: is the equivalent to an EventEmitter, and the only way of multicasting a value or event to multiple Observers.
 
     //Schedulers: are centralized dispatchers to control concurrency, allowing us to coordinate when computation happens on e.g. setTimeout or requestAnimationFrame or others.
+
+    // 45
 
 </script>
 </body>
