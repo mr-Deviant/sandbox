@@ -65,7 +65,7 @@
 		.subscribe(x => console.log('Array value: ', x)) // Array value:  10, Array value:  20, Array value:  30
 		.unsubscribe();
 
-	Rx.Observable.range(1, 5) // 1, 2, 3, 4, 5
+	Rx.Observable.range(1, 5).delay(50) // 1, 2, 3, 4, 5
 		.filter(item => item % 2 === 0) // 2, 4 - Test each element and return only satisfying the rule
 		.map(item => item + 1) // 3, 5 - Apply function to each element
 		.reduce((prev, cur) => prev + cur) // 8 - Single result of applying a function over each element
@@ -121,7 +121,66 @@
 
     //Schedulers: are centralized dispatchers to control concurrency, allowing us to coordinate when computation happens on e.g. setTimeout or requestAnimationFrame or others.
 
-    // 45
+    
+    // https://blog.thoughtram.io/angular/2016/06/16/cold-vs-hot-observables.html#caveat-http-with-observables
+    // https://angular-2-training-book.rangle.io/handout/observables/cold_vs_hot_observables.html
+    // Cold observable - doesn’t start producing values before the subscriptions exist.
+
+
+
+
+
+
+    
+    let subject = new Rx.Subject(); // It's Observable and Observer (has subscribe, next, error, and complete methods), used when second observer has to get the same events as first.
+    let source = Rx.Observable.interval(300).take(5);
+    source.subscribe(subject); // Now subject behaves as observable
+    // Every time the interval send values to the Subject, the Subject send this values to all his observers
+    subject.subscribe(val => console.log(`First subject: ${val}`)); // 0, 1, 2, 3, 4
+	setTimeout(() => {
+		subject.subscribe(val => console.log(`Second subject: ${val}`)) // 3, 4
+	}, 1000);
+
+	let asyncSubject = new Rx.AsyncSubject(); // Emits last value of sequence if it's completed (ideal for ajax (or we can apply toPromise() to RxSubject), emulating promises)
+	Rx.Observable.interval(300).take(5)
+    	.subscribe(asyncSubject);
+    asyncSubject.subscribe(val => console.log(`Async subject: ${val}`)); // 4 (only after 1.5sec)
+
+    let behaviourSubject = new Rx.BehaviorSubject('Loading'); // Observer recieves last emited value during subscription and then all other (it guarantees that there will always be at least 1 value emitted)
+    Rx.Observable.interval(300).take(5)
+    	.subscribe(behaviourSubject);
+    behaviourSubject.subscribe(val => console.log(`Behaviour subject 1: ${val}`)); // Loading, 0, 1, 2, 3, 4
+    setTimeout(() => {
+    	behaviourSubject.subscribe(val => console.log(`Behaviour subject 2: ${val}`)); // 2, 3, 4
+    }, 1000);
+
+    let replaySubject = new Rx.ReplaySubject();
+    Rx.Observable.interval(300).take(5)
+    	.subscribe(replaySubject);
+    replaySubject.subscribe(val => console.log(`Replay subject 1: ${val}`)); // 0, 1, 2, 3, 4
+    setTimeout(() => {
+    	replaySubject.subscribe(val => console.log(`Replay subject 2: ${val}`)); // 0, 1, 2, 3, 4
+    }, 1000);
+
+
+    ///// Parallel execution
+	Rx.Observable.forkJoin([
+		Rx.Observable.timer(500),
+		Rx.Observable.timer(1000)
+	]).subscribe((data) => {
+		console.log('Parallel execution (both are ready):', data);
+	});
+
+
+	///// Execution in series
+	Rx.Observable.timer(500)
+	.flatMap((data1) => {
+		return Rx.Observable.timer(1000)
+	}).subscribe((data2) => {
+		console.log('Execution in series (both are ready):', data2);
+	});
+
+	// http://restlet.com/company/blog/2016/04/12/interacting-efficiently-with-a-restful-service-with-angular2-and-rxjs-part-2/
 
 </script>
 </body>
