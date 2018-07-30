@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'stas-root',
-  templateUrl: './app.component.html',
+  templateUrl: './app.component.pug',
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'stas-angular-app';
+
 }
