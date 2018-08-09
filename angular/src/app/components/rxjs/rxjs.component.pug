@@ -1,0 +1,37 @@
+p
+    | First:
+    input(type="text", name="first")
+    input(type="button", id="completeFirst", value="Complete")
+    br
+    | Second:
+    input(type="text", name="second")
+    input(type="button", id="completeSecond", value="Complete")
+
+p
+    b
+        a(href="http://rxmarbles.com/#merge", target="_blank") Merge:
+    span(*ngFor="let item of merge") {{ item }}
+    br
+    | Emit events from both observabels
+
+p
+    b
+        a(href="http://rxmarbles.com/#concat" target="_blank") Concat:
+    span(*ngFor="let item of concat") {{ item }}
+    br
+    | Emit events from first observable and second observable (but only after first is completed)
+
+p
+    b ForkJoin:
+    span(*ngFor="let item of forkJoin") {{ item }}
+    br
+    | When all observables complete, emit the last emitted value from each, equvalent to Promise.all (do in <span style="color: red; font-weight: bold;">parallel</span>) (https://www.learnrxjs.io/operators/combination/forkjoin.html)
+
+p
+    b
+        a(href="http://rxmarbles.com/#mergeMap" target="_blank") FlatMap
+    |  (mergeMap):
+    span(*ngFor="let item of flatMap") {{ item }}
+    br
+    | Lets you flatten a higher-order Observable into a single stream (do <span style="color: red; font-weight: bold;">sequentially</span>)
+
