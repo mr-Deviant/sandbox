@@ -9,6 +9,13 @@ p
 
 p
     b
+        a(href="http://rxmarbles.com/#switchMap", target="_blank") SwitchMap:
+    span(*ngFor="let item of switchMap") {{ item }}
+    br
+    | On each emission the previous inner observable is cancelled and the new observable is subscribed
+
+p
+    b
         a(href="http://rxmarbles.com/#merge", target="_blank") Merge:
     span(*ngFor="let item of merge") {{ item }}
     br

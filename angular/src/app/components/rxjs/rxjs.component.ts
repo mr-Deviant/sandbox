@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, fromEvent, pipe, merge, concat, forkJoin } from 'rxjs';
-import { map, takeUntil, flatMap } from 'rxjs/operators';
+import { map, takeUntil, switchMap, flatMap } from 'rxjs/operators';
 
 // import 'rxjs/add/operator/takeUntil';
 // import 'rxjs/add/observable/fromEvent';
@@ -23,6 +23,7 @@ import { map, takeUntil, flatMap } from 'rxjs/operators';
 export class RxjsComponent implements OnInit {
     firstObservable$;
     secondOnservable$;
+    switchMap: string[] = [];
     merge: string[] = [];
     concat: string[] = [];
     forkJoin: string[] = [];
@@ -43,13 +44,14 @@ export class RxjsComponent implements OnInit {
 
     ngOnInit() { // ngAfterContentInit
         this.init();
+        this.testSwitchMap();
         this.testMerge();
         this.testConcat();
         this.testforkJoin();
         this.testflatMap();
     }
 
-    init() {
+    init(): void {
         let firstCompleted$ = new Subject();
         let secondCompleted$ = new Subject();
 
@@ -70,33 +72,42 @@ export class RxjsComponent implements OnInit {
             .subscribe(event => secondCompleted$.next());
     }
 
-    testMerge() {
+    testSwitchMap(): void { // TODO
+        this.firstObservable$.pipe(
+            switchMap(data => this.secondOnservable$)
+        )
+        .subscribe((data: string) => {
+            this.switchMap.push(data);
+        });
+    }
+
+    testMerge(): void {
         merge(
             this.firstObservable$,
             this.secondOnservable$
         )
-        .subscribe(data => {
+        .subscribe((data: string) => {
             this.merge.push(data);
         });
     }
 
-    testConcat() {
+    testConcat(): void {
         concat(
             this.firstObservable$,
             this.secondOnservable$
         )
-        .subscribe(data => {
+        .subscribe((data: string) => {
             this.concat.push(data);
         });
     }
 
-    testforkJoin() {
+    testforkJoin(): void {
         forkJoin(
             this.firstObservable$,
             this.secondOnservable$
         )
-        .subscribe(data => {
-            this.forkJoin = data;
+        .subscribe((data) => { // TODO: specify correct type
+            // this.forkJoin = data;
         });
     }
 
@@ -111,7 +122,7 @@ export class RxjsComponent implements OnInit {
                     return firstValue + '-' + secondValue;
                 })
             )
-            .subscribe(data => {
+            .subscribe((data: string) => {
                 this.flatMap.push(data);
             });
     }
