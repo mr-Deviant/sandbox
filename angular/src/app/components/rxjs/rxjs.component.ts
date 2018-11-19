@@ -190,8 +190,11 @@ export class RxjsComponent implements OnInit {
 
     ///// Load Ajax /////
 
+    private subscription$;
+    private unsubscribe$: Subject<void> = new Subject();
+
     loadAjax() {
-        this.http.get('https://api.github.com/users' + 'error')
+        this.subscription$ = this.http.get('https://api.github.com/users' + 'error')
             .pipe(
                 // retry(3), // !!! Retry 3 times more
                 retryWhen(errors => {
@@ -202,16 +205,26 @@ export class RxjsComponent implements OnInit {
                         takeWhile(accumulator => accumulator < 4), // Limit to 3 attempts
                         delay(1000) // Wait 1 second between attempts
                     );
-                })
+                }),
+                takeUntil(this.unsubscribe$) // Or this.subscription.unsubscribe();
             )
             .subscribe(data => {
                 console.log(data);
             });
 
-        from(fetch('https://api.github.com/users').then(data => data.json())) // Promise
+        const subscription = from(fetch('https://api.github.com/users').then(data => data.json())) // Promise
             .subscribe(data => {
                 console.log('Promise data:', data);
             });
+
+        this.subscription$.add(subscription); // Unsubscribe will work for all even added subscriptions
+    }
+
+    ngOnDestroy() {
+        this.subscription$.unsubscribe();
+        // Or
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 
 }
