@@ -5,11 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RxjsComponent } from './components/rxjs/rxjs.component';
+import { SubjectsComponent } from './components/subjects/subjects.component';
+import { HotColdComponent } from './components/hot-cold/hot-cold.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RxjsComponent
+    RxjsComponent,
+    SubjectsComponent,
+    HotColdComponent
   ],
   imports: [
     BrowserModule,
