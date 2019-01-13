@@ -1,1 +1,3 @@
-p hot-cold works!
+h2
+	a(href="https://medium.com/@luukgruijs/understanding-hot-vs-cold-observables-62d04cf92e03", target="_blank") Hot vs Cold Observables
+p When the data is produced by the Observable itself, we call it a cold Observable. When the data is produced outside the Observable, we call it a hot Observable. (Cold observables start running upon subscription. Hot observables, such as mouse move events or stock tickers, are already producing values even before a subscription is active.) Observables created using the of, from, range, interval and timer operators will be cold.

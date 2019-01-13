@@ -1,1 +1,17 @@
-p subjects works!
+h2
+	a(href="http://reactivex.io/documentation/subject.html", target="_blank") Subjects
+p It's Observable and Observer (has subscribe, next, error, and complete methods), used when second observer has to get the same events as first (multicast, while plain Observables are unicast (each subscribed Observer owns an independent execution of the Observable)).
+
+b Subject
+p 
+
+b AsyncSubject
+p Emits <span style="color: red; font-weight: bold;">only the last value</span> of sequence if it's completed. If you subscribe after completion, it will return value emidiately. (Ideal for ajax or we can emulate promises using Subject.toPromise())
+
+b BehaviorSubject
+p Observer <span style="color: red; font-weight: bold;">recieves last emited</span> (or initial) value during subscription and then all other (it guarantees that there will always be at least 1 value emitted)
+
+b ReplySubject
+p Emits <span style="color: red; font-weight: bold;">all items</span> from Observable, even those, which were emitted <span style="color: red; font-weight: bold;">before subscribing</span>. It can buffer N values for new subscribers.
+
+b PublishSubject is not implemented in RxJs
