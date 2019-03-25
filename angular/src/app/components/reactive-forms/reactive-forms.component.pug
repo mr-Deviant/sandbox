@@ -1,0 +1,14 @@
+form([formGroup]="form", (ngSubmit)="onSubmit()")
+    div(formGroupName="person")
+        select(formControlName="title")
+            option(value="") Please select
+            option(*ngFor="let title of titles", [value]="title") {{ title }}
+        input(type="text", placeholder="Name", formControlName="name")
+        button(type="button", (click)="add()") Add
+
+    ul(formArrayName="friends")
+        li(*ngFor="let friend of friends; let i = index;")
+            span([formGroupName]="i") {{ friend.value.title }} {{ friend.value.name }}
+            button(type="button", (click)="remove(i)") Remove
+    button(type="submit") Send
+    pre {{ form.value | json }}

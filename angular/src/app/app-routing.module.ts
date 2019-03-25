@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RxjsComponent } from './components/rxjs/rxjs.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { HotColdComponent } from './components/hot-cold/hot-cold.component';
+import { ReactiveFormsComponent } from './components/reactive-forms/reactive-forms.component';
 
 const routes: Routes = [
     { path: 'rxjs', component: RxjsComponent },
@@ -11,7 +12,8 @@ const routes: Routes = [
     { path: '',
         redirectTo: '/rxjs',
         pathMatch: 'full'
-    }
+    },
+    { path: 'reactive-forms', component: ReactiveFormsComponent },
     // ,{ path: '**', component: PageNotFoundComponent }
 ];
 

@@ -112,9 +112,9 @@ export class RxjsComponent implements OnInit {
             this.firstObservable$,
             this.secondOnservable$
         )
-        .subscribe((data: any[]) => { // TODO: specify correct type
-            console.log(data);
-            this.forkJoin = data;
+        .subscribe(([first, second]: [string, string]) => { // TODO: specify correct type +
+            console.log(first, second);
+            this.forkJoin = [first, second];
         });
     }
 
