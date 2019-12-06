@@ -18,19 +18,18 @@ h2
 
 p
     b
-        a(href="http://rxmarbles.com/#mergeMap" target="_blank") FlatMap
-    |  (mergeMap):
-    span(*ngFor="let item of flatMap") {{ item }}
+        a(href="http://rxmarbles.com/#switchMap", target="_blank") SwitchMap:
+    span(*ngFor="let item of switchMap") [{{ item }}]
     br
-    | Lets you flatten a higher-order Observable into a single stream (do <span style="color: red; font-weight: bold;">sequentially</span>). Auto subscribe to inner observable.
-
+    | On each emission the first inner observable is CANCELED and the second observable is subscribed (For example if you don't need data from first one: fromEvent, timer...)
 
 p
     b
-        a(href="http://rxmarbles.com/#switchMap", target="_blank") SwitchMap:
-    span(*ngFor="let item of switchMap") {{ item }}
+        a(href="http://rxmarbles.com/#mergeMap" target="_blank") FlatMap
+    |  (mergeMap):
+    span(*ngFor="let item of flatMap") [{{ item }}]
     br
-    | On each emission the previous inner observable is cancelled and the new observable is subscribed
+    | Combines a second observable into a single stream with first (do <span style="color: red; font-weight: bold;">sequentially</span>). Emits both values when second observer has emitted after first.
 
 p
     b

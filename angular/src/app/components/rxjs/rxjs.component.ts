@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, from, fromEvent, range, merge, concat, forkJoin } from 'rxjs';
-import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile } from 'rxjs/operators';
+import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'stas-rxjs',
@@ -22,7 +22,7 @@ export class RxjsComponent implements OnInit {
     ) { }
 
     // https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md#pipe-syntax
-    // switchMap - 71
+    // - switchMap - 71
     // Concat - 27
     // combineLatest - 25
     // Merge - 20
@@ -34,8 +34,8 @@ export class RxjsComponent implements OnInit {
 
     ngOnInit() { // ngAfterContentInit
         this.init();
-        this.testFlatMap();
         this.testSwitchMap();
+        this.testFlatMap();
         this.testMerge();
         this.testConcat();
         this.testforkJoin();
@@ -66,6 +66,16 @@ export class RxjsComponent implements OnInit {
             .subscribe(event => secondCompleted$.next());
     }
 
+    testSwitchMap(): void {
+        this.firstObservable$.pipe(
+            tap(first => console.log('switch map first result', first)),
+            switchMap(first => this.secondOnservable$)
+        )
+        .subscribe((data: string) => {
+            this.switchMap.push(data);
+        });
+    }
+
     testFlatMap() { // mergeMap
         this.firstObservable$
             .pipe(
@@ -76,15 +86,6 @@ export class RxjsComponent implements OnInit {
             .subscribe((data: string) => {
                 this.flatMap.push(data);
             });
-    }
-
-    testSwitchMap(): void { // TODO
-        this.firstObservable$.pipe(
-            switchMap(data => this.secondOnservable$)
-        )
-        .subscribe((data: string) => {
-            this.switchMap.push(data);
-        });
     }
 
     testMerge(): void {
