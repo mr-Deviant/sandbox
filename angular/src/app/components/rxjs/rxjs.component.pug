@@ -16,7 +16,7 @@ h2 Combination operators
 
 h3((click)="toggleImage($event);") combineLatest
 img.diagram(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/combineLatest.png")
-span(*ngFor="let item of combineLatest") {{ item }}
+span(*ngFor="let item of combineLatest") [{{ item }}]
 p When any observable emits a value, emit the last emitted value from each
 
 h2

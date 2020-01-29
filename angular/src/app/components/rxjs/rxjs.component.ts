@@ -73,7 +73,7 @@ export class RxjsComponent implements OnInit {
     testCombineLatest() {
         combineLatest(this.firstObservable$, this.secondOnservable$).subscribe(
             ([first, second]) => {
-                this.combineLatest = [first, second];
+                this.combineLatest.push([first, second]);
             }
         );
     }
