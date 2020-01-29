@@ -1,6 +1,4 @@
 p
-    | TODO: read
-    br
     | Diagrams: <a href="http://rxmarbles.com/">http://rxmarbles.com/</a>
     br
     | Official docs: <a href="http://reactivex.io/rxjs/manual/overview.html#introduction">http://reactivex.io/rxjs/manual/overview.html#introduction</a>
@@ -12,6 +10,14 @@ p
     | Second:
     input(type="text", name="second")
     input(type="button", id="completeSecond", value="Complete")
+
+
+h2 Combination operators
+
+h3((click)="toggleImage($event);") combineLatest
+img.diagram(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/combineLatest.png")
+span(*ngFor="let item of combineLatest") {{ item }}
+p When any observable emits a value, emit the last emitted value from each
 
 h2
     a(href="https://rxjs-dev.firebaseapp.com/api", target="_blank") RxJS API

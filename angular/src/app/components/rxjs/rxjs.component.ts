@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, from, fromEvent, range, merge, concat, forkJoin } from 'rxjs';
+import { Observable, Subject, from, fromEvent, range, merge, concat, forkJoin, combineLatest } from 'rxjs';
 import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile } from 'rxjs/operators';
+import $ from 'jquery';
 
 @Component({
     selector: 'stas-rxjs',
@@ -11,6 +12,7 @@ import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, re
 export class RxjsComponent implements OnInit {
     firstObservable$;
     secondOnservable$;
+    combineLatest: string[] = [];
     switchMap: string[] = [];
     merge: string[] = [];
     concat: string[] = [];
@@ -34,6 +36,8 @@ export class RxjsComponent implements OnInit {
 
     ngOnInit() { // ngAfterContentInit
         this.init();
+        this.testCombineLatest();
+
         this.testFlatMap();
         this.testSwitchMap();
         this.testMerge();
@@ -64,6 +68,14 @@ export class RxjsComponent implements OnInit {
             .subscribe(event => firstCompleted$.next());
         fromEvent(document.querySelector('#completeSecond'), 'click')
             .subscribe(event => secondCompleted$.next());
+    }
+
+    testCombineLatest() {
+        combineLatest(this.firstObservable$, this.secondOnservable$).subscribe(
+            ([first, second]) => {
+                this.combineLatest = [first, second];
+            }
+        );
     }
 
     testFlatMap() { // mergeMap
@@ -225,6 +237,14 @@ export class RxjsComponent implements OnInit {
         // Or
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    toggleImage(event) {
+        const img = $(event.target).next();
+
+        if (img.is('img')) {
+            img.slideToggle();
+        }
     }
 
 }
