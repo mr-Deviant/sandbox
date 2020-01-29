@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, from, fromEvent, range, merge, concat, forkJoin, combineLatest } from 'rxjs';
-import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile } from 'rxjs/operators';
+import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile, tap } from 'rxjs/operators';
 import $ from 'jquery';
 
 @Component({
@@ -24,7 +24,7 @@ export class RxjsComponent implements OnInit {
     ) { }
 
     // https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md#pipe-syntax
-    // switchMap - 71
+    // - switchMap - 71
     // Concat - 27
     // combineLatest - 25
     // Merge - 20
