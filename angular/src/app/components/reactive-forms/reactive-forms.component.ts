@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { ReactiveFormsService } from './reactive-forms.service'
+import { ReactiveFormsService } from './reactive-forms.service';
 
 @Component({
     selector: 'stas-reactive-forms',
-    templateUrl: 'reactive-forms.component.pug',
+    templateUrl: 'reactive-forms.component.html',
     styleUrls: ['reactive-forms.component.less']
 })
 export class ReactiveFormsComponent implements OnInit {

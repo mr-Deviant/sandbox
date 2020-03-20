@@ -4,7 +4,7 @@ import { share, publish } from 'rxjs/operators';
 
 @Component({
     selector: 'stas-hot-cold',
-    templateUrl: './hot-cold.component.pug',
+    templateUrl: './hot-cold.component.html',
     styleUrls: ['./hot-cold.component.less']
 })
 export class HotColdComponent {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Grid layout</title>
+    <style>
+        .grid-container { /* Неявный грид */
+            border: 1px solid red;
+            display: grid;
+            /* Columns width in grid, fraction */
+            grid-template-columns: 2fr 1fr 300px repeat(3, 1fr 2fr /* 3 times per 1fr and 2fr */);
+            /* Columns height */
+            grid-auto-rows: minmax(200px, auto /* minumum 200px, otherwise auto */);
+            grid-column-gap: 10px; /* Gorizontal gap between columns */
+            grid-row-gap: 20px; /* Vertical gap between rows */
+            /* Or grid-gap: 10px 20px; */
+        }
+        .grid-item {
+            border: 1px solid green;
+        }
+        .grid-container-2 { /* Явный грид */
+            border: 1px solid red;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 100px;
+        }
+        .box1, .box2, .box3, .box4, .box5 {
+            border: 1px solid green;
+        }
+        /* Placing elements by lines */
+        .box1 {
+            grid-column-start: 1;
+            grid-column-end: 4; /* Not including, total width 3fr */
+            grid-row-start: 1;
+            grid-row-end: 3; /* Not including, total height 2fr */
+        }
+        .box2 { /* Make box2 overlap box 1 */
+            grid-column-start: 1;
+            grid-row-start: 2;
+            grid-row-end: 4; /* Not including, total height 2fr */
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="grid-container">
+    <div class="grid-item">1</div>
+    <div class="grid-item">2</div>
+    <div class="grid-item">3</div>
+    <div class="grid-item">4</div>
+    <div class="grid-item">5</div>
+    <div class="grid-item">6</div>
+    <div class="grid-item">7</div>
+    <div class="grid-item">8</div>
+    <div class="grid-item">9</div>
+    <div class="grid-item">10</div>
+</div>
+<br>
+<div class="grid-container-2">
+    <div class="box1">One</div>
+    <div class="box2">Two</div>
+    <div class="box3">Three</div>
+    <div class="box4">Four</div>
+    <div class="box5">Five</div>
+</div>
+</body>
+</html>

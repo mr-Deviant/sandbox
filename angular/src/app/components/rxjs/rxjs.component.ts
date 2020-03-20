@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, from, fromEvent, range, merge, concat, forkJoin, combineLatest } from 'rxjs';
 import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile, tap } from 'rxjs/operators';
-import $ from 'jquery';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'stas-rxjs',
-    templateUrl: 'rxjs.component.pug',
+    templateUrl: 'rxjs.component.html',
     styleUrls: ['./rxjs.component.less']
 })
 export class RxjsComponent implements OnInit {
@@ -73,7 +73,7 @@ export class RxjsComponent implements OnInit {
     testCombineLatest() {
         combineLatest(this.firstObservable$, this.secondOnservable$).subscribe(
             ([first, second]) => {
-                this.combineLatest.push([first, second]);
+                this.combineLatest.push(first + '-' + second);
             }
         );
     }

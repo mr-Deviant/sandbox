@@ -4,7 +4,7 @@ import { take } from 'rxjs/operators';
 
 @Component({
     selector: 'stas-subjects',
-    templateUrl: './subjects.component.pug',
+    templateUrl: './subjects.component.html',
     styleUrls: ['./subjects.component.less']
 })
 export class SubjectsComponent {
@@ -45,7 +45,7 @@ export class SubjectsComponent {
     }
 
     behaviorSubject() {
-        let behaviourSubject$ = new BehaviorSubject(-1); 
+        let behaviourSubject$ = new BehaviorSubject(-1);
         interval(300).pipe(
             take(5)
         ).subscribe(behaviourSubject$);
