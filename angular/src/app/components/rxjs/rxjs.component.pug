@@ -2,6 +2,51 @@ p
     | Diagrams: <a href="http://rxmarbles.com/">http://rxmarbles.com/</a>
     br
     | Official docs: <a href="http://reactivex.io/rxjs/manual/overview.html#introduction">http://reactivex.io/rxjs/manual/overview.html#introduction</a>
+
+h2 Combination operators
+div
+    h3((click)="toggleImage('.combine-latest');") combineLatest
+    span(*ngFor="let item of combineLatest") [{{ item }}]
+img.diagram.combine-latest(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/combineLatest.png")
+p When any observable emits a value, emit the last emitted value from each (but after both (all) observables emit at least 1 value)
+
+div
+    h3((click)="toggleImage('.concat');") Concat
+    span(*ngFor="let item of concat") [{{ item }}]
+img.diagram.concat(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/concat.png")
+p Emit events from first observable, after it is completed start emiting only from second, ...
+
+div
+    h3((click)="toggleImage('.merge');") Merge
+    span(*ngFor="let item of merge") [{{ item }}]
+img.diagram.merge(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/merge.png")
+p Emit events from both observabels!!!
+
+div
+    h3((click)="toggleImage('.race');") Race
+    span(*ngFor="let item of race") [{{ item }}]
+img.diagram.race(src="https://i.imgur.com/wrxWrNL.png")
+p Return event from observable which first begin to emit values
+
+div
+    h3((click)="toggleImage('.with-latest-from');") WithLatestFrom
+    span(*ngFor="let item of withLatestFrom") [{{ item }}]
+img.diagram.with-latest-from(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/withLatestFrom.png")
+p Emit values from both observables only when first is emitting (but after both (all) observables emit at least 1 value)
+
+div
+    h3((click)="toggleImage('.zip');") Zip
+    span(*ngFor="let item of zip") [{{ item }}]
+img.diagram.zip(src="https://miro.medium.com/max/1895/1*6C5LCqGboEn2DjiANbn-gQ.png")
+p Emit values from both observers, n-th value from faster observer, then n-th value from slower observer
+
+div
+    h3((click)="toggleImage('.fork-join');") ForkJoin
+    span(*ngFor="let item of forkJoin") [{{ item }}]
+img.diagram.zip(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/forkJoin.png")
+p When all observables complete, emit the last emitted value from each, equvalent to Promise.all (do in <span style="color: red; font-weight: bold;">parallel</span>)
+
+
 p
     | First:
     input(type="text", name="first")
@@ -11,49 +56,29 @@ p
     input(type="text", name="second")
     input(type="button", id="completeSecond", value="Complete")
 
+h2 Transformation operators
 
-h2 Combination operators
+div
+    h3((click)="toggleImage('.buffer');") Buffer
+    span(*ngFor="let item of buffer") [{{ item }}]
+img.diagram.buffer(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/buffer.png")
+p Store values from first observer and emit them then second observer emit
 
-h3((click)="toggleImage($event);") combineLatest
-img.diagram(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/combineLatest.png")
-span(*ngFor="let item of combineLatest") [{{ item }}]
-p When any observable emits a value, emit the last emitted value from each
+div
+    h3((click)="toggleImage('.concat-map');") ConcatMap
+    span(*ngFor="let item of concatMap") [{{ item }}]
+img.diagram.concat-map(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/concatMap.png")
+p On first emit of first observer (first emit from sequence), we subscribe for second observer (<span style="color: red; font-weight: bold;">sequentially</span>) and can use data from first one
 
-h2
-    a(href="https://rxjs-dev.firebaseapp.com/api", target="_blank") RxJS API
 
-p
-    b
-        a(href="http://rxmarbles.com/#switchMap", target="_blank") SwitchMap:
+div
+    h3((click)="toggleImage('.merge-map');") MergeMap (FlatMap)
+    span(*ngFor="let item of mergeMap") [{{ item }}]
+img.diagram.merge-map(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/mergeMap.png")
+p Combines event from first observable with all passed events from second.
+
+div
+    h3((click)="toggleImage('.switch-map');") SwitchMap
     span(*ngFor="let item of switchMap") [{{ item }}]
-    br
-    | On each emission the first inner observable is CANCELED and the second observable is subscribed (For example if you don't need data from first one: fromEvent, timer...)
-
-p
-    b
-        a(href="http://rxmarbles.com/#mergeMap" target="_blank") FlatMap
-    |  (mergeMap):
-    span(*ngFor="let item of flatMap") [{{ item }}]
-    br
-    | Combines a second observable into a single stream with first (do <span style="color: red; font-weight: bold;">sequentially</span>). Emits both values when second observer has emitted after first.
-
-p
-    b
-        a(href="http://rxmarbles.com/#merge", target="_blank") Merge:
-    span(*ngFor="let item of merge") {{ item }}
-    br
-    | Emit events from both observabels
-
-p
-    b
-        a(href="http://rxmarbles.com/#concat" target="_blank") Concat:
-    span(*ngFor="let item of concat") {{ item }}
-    br
-    | Emit events from first observable and second observable (but only after first is completed)
-
-p
-    b ForkJoin:
-    span(*ngFor="let item of forkJoin") {{ item }}
-    br
-    | When all observables complete, emit the last emitted value from each, equvalent to Promise.all (do in <span style="color: red; font-weight: bold;">parallel</span>) (https://www.learnrxjs.io/operators/combination/forkjoin.html)
-
+img.diagram.switch-map(src="https://rxjs-dev.firebaseapp.com/assets/images/marble-diagrams/switchMap.png")
+p On first emit of first observer (last emit from sequence), we subscribe for second observer (<span style="color: red; font-weight: bold;">sequentially</span>) and can use data from first one

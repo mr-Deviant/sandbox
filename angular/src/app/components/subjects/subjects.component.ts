@@ -56,7 +56,7 @@ export class SubjectsComponent {
     }
 
     replaySubject() {
-        let replaySubject$ = new ReplaySubject(2); // Buffer 2 values for new subscribers
+        let replaySubject$ = new ReplaySubject(2); // Buffer all or {number} values for new subscribers
         interval(300).pipe(
             take(5)
         ).subscribe(replaySubject$);

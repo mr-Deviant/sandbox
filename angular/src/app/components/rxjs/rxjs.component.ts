@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, from, fromEvent, range, merge, concat, forkJoin, combineLatest } from 'rxjs';
-import { distinct, map, filter, reduce, takeUntil, switchMap, flatMap, retry, retryWhen, delay, scan, takeWhile, tap } from 'rxjs/operators';
+import { Observable, Subject, from, fromEvent, range, combineLatest, concat, merge, race, zip, forkJoin } from 'rxjs';
+import { distinct, map, filter, reduce, takeUntil, withLatestFrom, buffer, concatMap, mergeMap, switchMap,          retry, retryWhen, delay, scan, takeWhile, tap } from 'rxjs/operators';
 import * as $ from 'jquery';
 
 @Component({
@@ -11,38 +11,40 @@ import * as $ from 'jquery';
 })
 export class RxjsComponent implements OnInit {
     firstObservable$;
-    secondOnservable$;
+    secondObservable$;
     combineLatest: string[] = [];
-    switchMap: string[] = [];
-    merge: string[] = [];
     concat: string[] = [];
+    merge: string[] = [];
+    race: string[] = [];
+    withLatestFrom: string[] = [];
+    zip: string[] = [];
     forkJoin: string[] = [];
-    flatMap: string[] = [];
+    buffer: string[] = [];
+    concatMap: string[] = [];
+    mergeMap: string[] = [];
+    switchMap: string[] = [];
 
     constructor(
         private http: HttpClient
     ) { }
 
-    // https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md#pipe-syntax
-    // - switchMap - 71
-    // Concat - 27
-    // combineLatest - 25
-    // Merge - 20
-    // mergeMap - 9
-    // concatMap - 9
-    // forkJoin - 7
-    // Zip - 3
-    // Race - 0
-
     ngOnInit() { // ngAfterContentInit
         this.init();
-        this.testCombineLatest();
 
-        this.testFlatMap();
-        this.testSwitchMap();
-        this.testMerge();
+        // COMBINATION OPERATORS
+        this.testCombineLatest();
         this.testConcat();
+        this.testMerge();
+        this.testRace();
+        this.testWithLatestFrom();
+        this.testZip();
         this.testforkJoin();
+
+        // TRANSFORMATION OPERATORS
+        this.testBuffer();
+        this.testConcatMap();
+        this.testMergeMap();
+        this.testSwitchMap();
 
         this.createObservables();
 
@@ -58,7 +60,7 @@ export class RxjsComponent implements OnInit {
                 map((event: any) => String.fromCharCode(event.which || event.keyCode)),
                 takeUntil(firstCompleted$)
             );
-        this.secondOnservable$ = fromEvent(document.querySelector('input[name="second"]'), 'keypress')
+        this.secondObservable$ = fromEvent(document.querySelector('input[name="second"]'), 'keypress')
             .pipe(
                 map((event: any) => String.fromCharCode(event.which || event.keyCode)),
                 takeUntil(secondCompleted$)
@@ -71,71 +73,111 @@ export class RxjsComponent implements OnInit {
     }
 
     testCombineLatest() {
-        combineLatest(this.firstObservable$, this.secondOnservable$).subscribe(
+        combineLatest(this.firstObservable$, this.secondObservable$).subscribe(
             ([first, second]) => {
                 this.combineLatest.push(first + '-' + second);
             }
         );
     }
 
-    testFlatMap() { // mergeMap
-        this.firstObservable$
-            .pipe(
-                flatMap(firstValue => this.secondOnservable$, (firstValue, secondValue) => {
-                    return firstValue + '-' + secondValue;
-                })
-            )
-            .subscribe((data: string) => {
-                this.flatMap.push(data);
-            });
-    }
-
-    testSwitchMap(): void { // TODO
-        this.firstObservable$.pipe(
-            switchMap(data => this.secondOnservable$)
+    testConcat(): void {
+        concat(
+            this.firstObservable$,
+            this.secondObservable$
         )
-        .subscribe((data: string) => {
-            this.switchMap.push(data);
-        });
+            .subscribe((data: string) => {
+                this.concat.push(data);
+            });
     }
 
     testMerge(): void {
         merge(
             this.firstObservable$,
-            this.secondOnservable$
+            this.secondObservable$
         )
-        .subscribe((data: string) => {
-            this.merge.push(data);
-        });
+            .subscribe((data: string) => {
+                this.merge.push(data);
+            });
     }
 
-    testConcat(): void {
-        concat(
+    testRace(): void {
+        race(
             this.firstObservable$,
-            this.secondOnservable$
+            this.secondObservable$
         )
-        .subscribe((data: string) => {
-            this.concat.push(data);
-        });
+            .subscribe((data: string) => {
+                this.race.push(data);
+            });
+    }
+
+    testWithLatestFrom(): void {
+        this.firstObservable$
+            .pipe(withLatestFrom(this.secondObservable$))
+            .subscribe(([first, second]) => {
+                this.withLatestFrom.push(first + '-' + second);
+            });
+    }
+
+    testZip(): void {
+        zip(
+            this.firstObservable$,
+            this.secondObservable$
+        )
+            .subscribe((data: string) => {
+                this.zip.push(data);
+            });
     }
 
     testforkJoin(): void {
         forkJoin(
             this.firstObservable$,
-            this.secondOnservable$
+            this.secondObservable$
         )
-        .subscribe(([first, second]: [string, string]) => { // TODO: specify correct type +
-            console.log(first, second);
-            this.forkJoin = [first, second];
-        });
+            .subscribe(([first, second]: [string, string]) => {
+                this.forkJoin.push(first + '-' + second);
+            });
     }
 
-    //MergeMap,
+    testBuffer(): void {
+        this.firstObservable$
+            .pipe(buffer(this.secondObservable$))
+            .subscribe((data: string) => {
+                this.buffer.push(data);
+            });
+    }
 
-    //switchMap
+    testConcatMap(): void { // concatMap is equivalent to mergeMap with concurrency parameter set to 1.
+        this.firstObservable$
+            .pipe(concatMap(event => this.secondObservable$, (firstValue, secondValue) => {
+                return firstValue + '-' + secondValue;
+            }))
+            .subscribe((data: string) => {
+                this.concatMap.push(data);
+            });
+    }
 
-    //combineLatest
+    testMergeMap(): void { // flatMap
+        this.firstObservable$
+            .pipe(
+                mergeMap(firstValue => this.secondObservable$, (firstValue, secondValue) => {
+                    return firstValue + '-' + secondValue;
+                })
+            )
+            .subscribe((data: string) => {
+                this.mergeMap.push(data);
+            });
+    }
 
+    testSwitchMap(): void { // TODO
+        this.firstObservable$.pipe(
+            switchMap(data => this.secondObservable$, (firstValue, secondValue) => {
+                return firstValue + '-' + secondValue;
+            })
+        )
+        .subscribe((data: string) => {
+            this.switchMap.push(data);
+        });
+    }
 
     ///// Create observables /////
 
@@ -239,12 +281,9 @@ export class RxjsComponent implements OnInit {
         this.unsubscribe$.complete();
     }
 
-    toggleImage(event) {
-        const img = $(event.target).next();
 
-        if (img.is('img')) {
-            img.slideToggle();
-        }
+
+    toggleImage(imgSelector) {
+        $(imgSelector).slideToggle();
     }
-
 }
