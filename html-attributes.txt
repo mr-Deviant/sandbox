@@ -1,0 +1,67 @@
+https://habr.com/ru/post/660381/
+
+Какой текст написать на синей кнопке done на мобильных устройствах
+<input type="text" enterkeyhint="done">
+- enter,
+- done,
+- go,
+- next,
+- previous,
+- search,
+- send
+
+
+
+Скачать содержимое по ссылке
+<a href="/example.pdf" download>Download File</a>
+<a href="/example.pdf" download="my-download.pdf">Download File</a>
+
+
+
+Загружать картинку, только когда до нее доскролили
+<img src="image.jpg" loading="lazy">
+<iframe src="video-player.html" loading="lazy"></iframe>
+
+
+
+Отнести элемент формы вне формы к какой-то форме
+<form id="myForm" action="/form.php">
+  <button type="submit">
+</form>
+
+<input type="email" form="myForm">
+
+
+
+Предзагрузка изображений, можно указывать изображения в зависимости от ширины вьюпорта
+<link rel="preload"
+      as="image"
+      imagesrcset="images/example-480.png 480w,
+             images/example-800.png 800w,
+             images/example.png 2000w"
+     imagesizes="(max-width: 600px) 480px,
+            (max-width: 1000px) 800px,
+            1000px"
+     src="images/example.png"
+     alt="Example Image">
+
+
+
+Атрибут disabled для элемента <fieldset> позволяет просто одновременно отключать несколько элементов форм
+
+
+
+https://css-tricks.com/a-guide-to-the-responsive-images-syntax-in-html/
+
+Разные изображения для ретина мониторов
+<img srcset="
+  examples/images/image-384.jpg 1x, 
+  examples/images/image-768.jpg 2x
+">
+background-image: 
+    image-set(
+      url(examples/images/image-384.jpg) 1x,
+      url(examples/images/image-768.jpg) 2x,
+    );
+
+
